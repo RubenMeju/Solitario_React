@@ -14,6 +14,19 @@ const initialState = {
   },
 };
 
+const crearCartaHTML = (carta) => {
+  const cartaHTML = document.createElement("div");
+  const imagen = document.createElement("img");
+  if (carta.flipped) {
+    imagen.src = "back.png";
+  } else {
+    imagen.src = carta.img;
+  }
+  cartaHTML.classList.add("pos-absolute");
+  cartaHTML.appendChild(imagen);
+  return cartaHTML;
+};
+
 export const gameSlice = createSlice({
   name: "game",
   initialState,
@@ -50,29 +63,29 @@ export const gameSlice = createSlice({
         }
       }
     },
-    colocarCartas: (state) => {
+    prepararCartasGrupo1: (state) => {
+      for (let i = 0; i < state.barajado.length; i++) {
+        const carta = state.barajado[i];
+        const cartaHTML = crearCartaHTML(carta);
+        const grupo1 = document.querySelector("#grupo1");
+        grupo1.appendChild(cartaHTML);
+      }
+    },
+
+    prepararCartasGrupo3: (state) => {
       for (let i = 0; i < state.columnas.length; i++) {
         const columna = document.querySelector(`#columna-${i}`);
         for (let j = 0; j < state.columnas[i].length; j++) {
           const finalColumna = j === state.columnas[i].length - 1;
           const carta = state.columnas[i][j];
-
-          const cartaHTML = document.createElement("div");
-          const imagen = document.createElement("img");
-
           if (finalColumna) {
             carta.flipped = false;
           }
 
-          if (carta.flipped) {
-            imagen.src = "back.png";
-          } else {
-            imagen.src = carta.img;
-          }
+          const cartaHTML = crearCartaHTML(carta);
 
-          cartaHTML.classList.add("pos-absolute");
           cartaHTML.style.top = `${j * 30}px`;
-          cartaHTML.appendChild(imagen);
+
           columna.appendChild(cartaHTML);
         }
       }
@@ -81,7 +94,12 @@ export const gameSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { crearBaraja, barajarCartas, darCartas, colocarCartas } =
-  gameSlice.actions;
+export const {
+  crearBaraja,
+  barajarCartas,
+  darCartas,
+  prepararCartasGrupo1,
+  prepararCartasGrupo3,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;
