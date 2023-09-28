@@ -1,5 +1,3 @@
-import "./grupo3.css";
-
 export default function Grupo3() {
   return (
     <div className="grupo3">

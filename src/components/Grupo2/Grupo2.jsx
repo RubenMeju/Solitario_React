@@ -1,5 +1,3 @@
-import "./grupo2.css";
-
 export default function Grupo2() {
   return (
     <div className="contenedor">
