@@ -1,0 +1,9 @@
+.mesa {
+  max-width: 1400px;
+  margin: auto;
+}
+.fila1 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
