@@ -6,6 +6,7 @@ import Grupo3 from '../Grupo3/Grupo3'
 const mazo = []
 let barajado = []
 const columnas = []
+const primeraCartaCliqueada = null
 
 const tipos = ['corazones', 'diamantes', 'treboles', 'picas']
 const colores = {
@@ -69,7 +70,11 @@ export default function Mesa() {
         <Grupo1 barajado={barajado} isPlay={isPlay} />
         <Grupo2 />
       </div>
-      <Grupo3 columnas={columnas} isPlay={isPlay} />
+      <Grupo3
+        columnas={columnas}
+        isPlay={isPlay}
+        primeraCartaCliqueada={primeraCartaCliqueada}
+      />
     </div>
   )
 }

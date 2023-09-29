@@ -1,7 +1,28 @@
 import { useEffect } from 'react'
 import { crearCartaHTML } from '../../utils'
 
-export default function Grupo3({ columnas, isPlay }) {
+export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
+  const handleClickCarta = (carta) => {
+    console.log('Carta clicked')
+
+    if (primeraCartaCliqueada) {
+      const segundaCartaCliqueada = carta
+      if (
+        primeraCartaCliqueada.dataset.numero ==
+          segundaCartaCliqueada.dataset.numero - 1 &&
+        segundaCartaCliqueada.dataset.color !==
+          primeraCartaCliqueada.dataset.color
+      ) {
+        alert('moviemiento permitido')
+      } else {
+        alert('no se puede mover!!!!!')
+      }
+    } else {
+      primeraCartaCliqueada = carta
+      carta.style.border = '2px solid red'
+    }
+  }
+
   const prepararCartasGrupo3 = (columnas) => {
     for (let i = 0; i < columnas.length; i++) {
       const columna = document.querySelector(`#columna-${i}`)
@@ -11,7 +32,7 @@ export default function Grupo3({ columnas, isPlay }) {
         if (finalColumna) {
           carta.flipped = false
         }
-        const cartaHTML = crearCartaHTML(carta)
+        const cartaHTML = crearCartaHTML(carta, handleClickCarta)
         cartaHTML.style.top = `${j * 30}px`
         columna.appendChild(cartaHTML)
       }
