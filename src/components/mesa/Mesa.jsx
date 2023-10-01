@@ -3,7 +3,7 @@ import Grupo1 from '../Grupo1/Grupo1'
 import Grupo2 from '../Grupo2/Grupo2'
 import Grupo3 from '../Grupo3/Grupo3'
 
-const mazo = []
+const barajaInicial = []
 let barajado = []
 const columnas = []
 const primeraCartaCliqueada = null
@@ -26,15 +26,15 @@ const crearBaraja = () => {
         img: `${i}_de_${tipos[j]}.png`,
         flipped: true
       }
-      mazo.push(carta)
-      // console.log("mazo: ", mazo);
+      barajaInicial.push(carta)
+      // console.log("barajaInicial: ", barajaInicial);
     }
   }
-  console.log('valor mazo: ', mazo)
+  console.log('valor barajaInicial: ', barajaInicial)
 }
 
 const barajarCartas = () => {
-  barajado = mazo
+  barajado = barajaInicial
     .map((carta) => ({ carta, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ carta }) => carta)

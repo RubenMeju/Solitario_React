@@ -5,7 +5,7 @@ export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
   const [update, setUpdate] = useState(false)
 
   const handleClickCarta = (carta) => {
-    console.log('Carta clicked')
+    // console.log('Carta clicked')
 
     if (primeraCartaCliqueada) {
       // setUpdate(false)

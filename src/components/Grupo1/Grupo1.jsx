@@ -2,11 +2,15 @@ import { useEffect } from 'react'
 import { crearCartaHTML } from '../../utils'
 
 export default function Grupo1({ barajado, isPlay }) {
-  console.log('bajarado al iniciar', barajado)
+  // console.log('bajarado al iniciar', barajado)
+
+  const handleClickCarta = () => {
+    console.log('grupo1 clicked')
+  }
   const prepararCartasGrupo1 = (barajado) => {
     for (let i = 0; i < barajado.length; i++) {
       const carta = barajado[i]
-      const cartaHTML = crearCartaHTML(carta)
+      const cartaHTML = crearCartaHTML(carta, handleClickCarta)
       const grupo1 = document.querySelector('#grupo1')
       grupo1.appendChild(cartaHTML)
     }
@@ -14,9 +18,9 @@ export default function Grupo1({ barajado, isPlay }) {
 
   useEffect(() => {
     if (isPlay === true) {
-      console.log('isplay grupo1: ', isPlay)
+      // console.log('isplay grupo1: ', isPlay)
       prepararCartasGrupo1(barajado)
-      console.log('barajado en useefect,', barajado)
+      // console.log('barajado en useefect,', barajado)
     }
   }, [isPlay])
 
