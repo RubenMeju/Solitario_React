@@ -1,11 +1,14 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { crearCartaHTML } from '../../utils'
 
 export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
+  const [update, setUpdate] = useState(false)
+
   const handleClickCarta = (carta) => {
     console.log('Carta clicked')
 
     if (primeraCartaCliqueada) {
+      // setUpdate(false)
       const segundaCartaCliqueada = carta
       if (
         primeraCartaCliqueada.dataset.numero ==
@@ -13,7 +16,16 @@ export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
         segundaCartaCliqueada.dataset.color !==
           primeraCartaCliqueada.dataset.color
       ) {
-        alert('moviemiento permitido')
+        // alert('moviemiento permitido')
+        const columnaDeLaPrimeraCarta =
+          columnas[Number(primeraCartaCliqueada.dataset.column)]
+        const columnaDeLaSegundaCarta =
+          columnas[Number(segundaCartaCliqueada.dataset.column)]
+        const primeraCarta = columnaDeLaPrimeraCarta.pop()
+        columnaDeLaSegundaCarta.push(primeraCarta)
+
+        setUpdate(true)
+        // prepararCartasGrupo3(segundaCarta)
       } else {
         alert('no se puede mover!!!!!')
       }
@@ -24,8 +36,10 @@ export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
   }
 
   const prepararCartasGrupo3 = (columnas) => {
+    // Limpiar el contenido de todas las columnas antes de agregar las cartas
     for (let i = 0; i < columnas.length; i++) {
       const columna = document.querySelector(`#columna-${i}`)
+      columna.innerHTML = '' // Limpiar el contenido
       for (let j = 0; j < columnas[i].length; j++) {
         const finalColumna = j === columnas[i].length - 1
         const carta = columnas[i][j]
@@ -33,6 +47,7 @@ export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
           carta.flipped = false
         }
         const cartaHTML = crearCartaHTML(carta, handleClickCarta)
+        cartaHTML.dataset.column = i
         cartaHTML.style.top = `${j * 30}px`
         columna.appendChild(cartaHTML)
       }
@@ -41,10 +56,9 @@ export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
 
   useEffect(() => {
     if (isPlay === true) {
-      console.log('isplay grupo3: ', isPlay)
       prepararCartasGrupo3(columnas)
     }
-  }, [isPlay])
+  }, [isPlay, columnas, update])
 
   return (
     <div className="grupo3">
