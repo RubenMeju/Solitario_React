@@ -1,35 +1,58 @@
 import { useEffect, useContext, useState } from 'react'
-import { crearCartaHTML } from '../../utils'
+
 import { GameContext } from '../mesa/Mesa'
+import './styles.css'
 
 export default function Grupo1() {
   const { isPlay, barajado } = useContext(GameContext)
-
+  const [cartaPulsada, setCartaPulsada] = useState([])
   const [update, setUpdate] = useState(false)
 
-  const handleClickCarta = () => {}
-  const prepararCartasGrupo1 = () => {
-    // barajado.innerHTML = ''
-    for (let i = 0; i < barajado.length; i++) {
-      const carta = barajado[i]
-      const cartaHTML = crearCartaHTML(carta, handleClickCarta)
-      const grupo1 = document.querySelector('#sacarCarta')
-      grupo1.appendChild(cartaHTML)
-    }
-  }
+  const [cartasVolteadas, setCartasVolteadas] = useState([])
 
+  const handleClick = (carta) => {
+    setUpdate(false)
+    // console.log('carta cliequeada: ', carta)
+    // console.log('barajado: ', barajado)
+    // console.log('buscando carta: ', barajado[barajado.length - 1])
+    // cartasVolteadas.push(barajado[barajado.length - 1])
+    setCartasVolteadas((prevCartasVolteadas) => [...prevCartasVolteadas, carta])
+    barajado.pop()
+    console.log('cartasVolteadas: ', cartasVolteadas)
+    console.log('barajado sin una carta', barajado)
+    setUpdate(true)
+  }
   useEffect(() => {
-    if (barajado.length > 0) {
-      console.log('isplay grupo1: ', isPlay)
-      prepararCartasGrupo1()
-      console.log('barajado en useefect,', barajado)
-    }
-  }, [barajado, update])
+    console.log('useefect')
+  }, [update])
 
   return (
-    <div id="grupo1" onClick={() => console.log('Carta pulsada')}>
-      <section id="sacarCarta" className="carta"></section>
-      <section id="cartaElegida"></section>
+    <div className="container">
+      <section id="sacarCarta" className="section1">
+        {barajado.map((carta, index) => (
+          <div
+            key={index}
+            data-numero={carta.numero}
+            data-color={carta.color}
+            data-tipo={carta.tipo}
+            data-flipped={carta.flipped}
+            onClick={() => handleClick(carta)}
+          >
+            <img
+              src={carta.flipped ? 'back.png' : carta.img}
+              alt="carta"
+              className="pos-absolute"
+            />
+          </div>
+        ))}
+      </section>
+      <section className="section2">
+        {cartasVolteadas.map((carta, index) => (
+          <div key={index}>
+            <img src={carta.img} alt="" className="pos-absolute" />
+          </div>
+        ))}
+      </section>
     </div>
   )
 }

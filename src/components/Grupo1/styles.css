@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  gap: 2rem;
+}
+
+.section1 {
+  width: 150px;
+  height: 200px;
+  background-color: rgb(80, 80, 80, 0.5);
+}
+
+.pos-absolute {
+  position: absolute;
+  border-radius: 10px;
+  height: 170;
+}
+
+.flipped {
+  position: absolute;
+  left: 300px;
+  top: 40;
+}

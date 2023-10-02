@@ -1,3 +1,4 @@
+/*
 export const crearCartaHTML = (carta, handleClickCarta) => {
   const cartaHTML = document.createElement('div')
   const imagen = document.createElement('img')
@@ -16,7 +17,7 @@ export const crearCartaHTML = (carta, handleClickCarta) => {
   cartaHTML.appendChild(imagen)
   return cartaHTML
 }
-
+*/
 const barajaInicial = []
 let barajado = []
 const columnas = []

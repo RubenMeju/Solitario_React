@@ -14,13 +14,15 @@
   display: flex;
   justify-content: space-between;
 }
-.grupo1 {
-  position: absolute;
-}
+
 .grupo2 {
   display: flex;
   gap: 20px;
 }
+img {
+  width: 150px;
+}
+/*
 .grupo3 {
   position: relative;
   width: 100%;
@@ -36,13 +38,12 @@
   background-color: rgb(80, 80, 80, 0.5);
 }
 
-img {
-  width: 150px;
-}
+
 
 .pos-absolute {
   position: absolute;
-  /*border: 1px solid blue;*/
-  border-radius: 10px;
+ // border: 1px solid blue;
+ border-radius: 10px;
   height: 170;
 }
+*/
