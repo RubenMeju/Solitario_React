@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { GameContext } from '../mesa/Mesa'
 import './styles.css'
 
@@ -6,15 +6,13 @@ export default function Grupo1() {
   const {
     barajado,
     setBarajado,
+    cartasVolteadas,
+    setCartasVolteadas,
     primeraCartaCliqueada,
     setPrimeraCartaCliqueada
   } = useContext(GameContext)
-  const [cartasVolteadas, setCartasVolteadas] = useState([])
-
-  const [update, setUpdate] = useState(false)
 
   const handleClick = (carta) => {
-    setUpdate(false)
     setPrimeraCartaCliqueada([])
     console.log('la carta q clikeo: ', carta)
     console.log('la primera carta cliqueada', primeraCartaCliqueada)
@@ -23,7 +21,6 @@ export default function Grupo1() {
     setBarajado((prevBarajado) =>
       prevBarajado.filter((barajado) => barajado !== carta)
     )
-    setUpdate(true)
   }
 
   const resetearCartas = () => {
@@ -33,10 +30,6 @@ export default function Grupo1() {
       setCartasVolteadas([])
     }
   }
-
-  useEffect(() => {
-    console.log('useefect')
-  }, [update])
 
   return (
     <div className="container">

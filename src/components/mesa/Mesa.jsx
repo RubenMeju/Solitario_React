@@ -10,6 +10,8 @@ export default function Mesa() {
   const [isPlay, setIsPlay] = useState(false)
   const [barajado, setBarajado] = useState([])
   const [columnas, setColumnas] = useState([])
+  const [cartasVolteadas, setCartasVolteadas] = useState([])
+
   const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
 
   useEffect(() => {
@@ -46,6 +48,8 @@ export default function Mesa() {
           setBarajado,
           columnas,
           setColumnas,
+          cartasVolteadas,
+          setCartasVolteadas,
           primeraCartaCliqueada,
           setPrimeraCartaCliqueada
         }}
