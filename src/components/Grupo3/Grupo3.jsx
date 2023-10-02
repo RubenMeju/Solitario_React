@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { crearCartaHTML } from '../../utils'
 
-export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
+import { GameContext } from '../mesa/Mesa'
+
+export default function Grupo3() {
+  const { isPlay, columnas, primeraCartaCliqueada, setPrimeraCartaCliqueada } =
+    useContext(GameContext)
   const [update, setUpdate] = useState(false)
 
   const handleClickCarta = (carta) => {
-    // console.log('Carta clicked')
-
+    console.log('Carta selecionada', carta)
     if (primeraCartaCliqueada) {
+      console.log('Ya existe una primera cliqueada')
       // setUpdate(false)
       const segundaCartaCliqueada = carta
       if (
@@ -30,12 +34,12 @@ export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
         alert('no se puede mover!!!!!')
       }
     } else {
-      primeraCartaCliqueada = carta
+      setPrimeraCartaCliqueada(carta)
       carta.style.border = '2px solid red'
     }
   }
 
-  const prepararCartasGrupo3 = (columnas) => {
+  const prepararCartasGrupo3 = () => {
     // Limpiar el contenido de todas las columnas antes de agregar las cartas
     for (let i = 0; i < columnas.length; i++) {
       const columna = document.querySelector(`#columna-${i}`)
@@ -55,10 +59,11 @@ export default function Grupo3({ columnas, isPlay, primeraCartaCliqueada }) {
   }
 
   useEffect(() => {
-    if (isPlay === true) {
-      prepararCartasGrupo3(columnas)
+    if (columnas.length > 0) {
+      console.log('REPARTIR CARTAS')
+      prepararCartasGrupo3()
     }
-  }, [isPlay, columnas, update])
+  }, [columnas, update])
 
   return (
     <div className="grupo3">
