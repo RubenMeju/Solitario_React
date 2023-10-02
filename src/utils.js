@@ -61,6 +61,6 @@ export const darCartas = () => {
       columnas[i].push(primeraCarta)
     }
   }
-  console.log('Dar cartas: ', columnas)
+  // console.log('Dar cartas: ', columnas)
   return { barajado, columnas }
 }

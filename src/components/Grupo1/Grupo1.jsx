@@ -1,55 +1,58 @@
-import { useEffect, useContext, useState } from 'react'
-
+import { useContext, useState } from 'react'
 import { GameContext } from '../mesa/Mesa'
 import './styles.css'
 
 export default function Grupo1() {
-  const { isPlay, barajado } = useContext(GameContext)
-  const [cartaPulsada, setCartaPulsada] = useState([])
-  const [update, setUpdate] = useState(false)
-
+  const { barajado, setBarajado } = useContext(GameContext)
   const [cartasVolteadas, setCartasVolteadas] = useState([])
 
   const handleClick = (carta) => {
-    setUpdate(false)
-    // console.log('carta cliequeada: ', carta)
-    // console.log('barajado: ', barajado)
-    // console.log('buscando carta: ', barajado[barajado.length - 1])
-    // cartasVolteadas.push(barajado[barajado.length - 1])
     setCartasVolteadas((prevCartasVolteadas) => [...prevCartasVolteadas, carta])
-    barajado.pop()
-    console.log('cartasVolteadas: ', cartasVolteadas)
-    console.log('barajado sin una carta', barajado)
-    setUpdate(true)
+    setBarajado((prevBarajado) =>
+      prevBarajado.filter((barajado) => barajado !== carta)
+    )
   }
-  useEffect(() => {
-    console.log('useefect')
-  }, [update])
+
+  const resetearCartas = () => {
+    console.log('meju valor barajado lenth', barajado.length > 0)
+    if (barajado.length === 0) {
+      console.log('resetear cartas', barajado)
+      setBarajado(cartasVolteadas)
+      setCartasVolteadas([])
+    }
+  }
 
   return (
     <div className="container">
-      <section id="sacarCarta" className="section1">
-        {barajado.map((carta, index) => (
-          <div
-            key={index}
-            data-numero={carta.numero}
-            data-color={carta.color}
-            data-tipo={carta.tipo}
-            data-flipped={carta.flipped}
-            onClick={() => handleClick(carta)}
-          >
-            <img
-              src={carta.flipped ? 'back.png' : carta.img}
-              alt="carta"
-              className="pos-absolute"
-            />
-          </div>
-        ))}
+      <section id="sacarCarta" className="section1" onClick={resetearCartas}>
+        {barajado
+          .slice()
+          .reverse()
+          .map((carta, index) => (
+            <div
+              key={index}
+              data-numero={carta.numero}
+              data-color={carta.color}
+              data-tipo={carta.tipo}
+              data-flipped={carta.flipped}
+              onClick={() => handleClick(carta)}
+            >
+              <img
+                src={carta.flipped ? 'back.png' : carta.img}
+                alt="carta"
+                className="pos-absolute"
+              />
+            </div>
+          ))}
       </section>
       <section className="section2">
         {cartasVolteadas.map((carta, index) => (
           <div key={index}>
-            <img src={carta.img} alt="" className="pos-absolute" />
+            <img
+              src={carta.img}
+              alt="carta-volteada"
+              className="pos-absolute"
+            />
           </div>
         ))}
       </section>
