@@ -19,7 +19,9 @@ export default function Grupo1() {
     console.log('la carta q clikeo: ', carta)
     console.log('la primera carta cliqueada', primeraCartaCliqueada)
 
+    // añado la carta cliqueada a cartas volteadas
     setCartasVolteadas((prevCartasVolteadas) => [...prevCartasVolteadas, carta])
+    // quito la carta cliqueada a barajado
     setBarajado((prevBarajado) =>
       prevBarajado.filter((barajado) => barajado !== carta)
     )
@@ -34,7 +36,7 @@ export default function Grupo1() {
   }
   const drag = (ev, carta) => {
     console.log('Arrastro carta (drag)', ev)
-    ev.dataTransfer.setData('text', ev.target.id)
+    ev.dataTransfer.setData('text', carta)
     setPrimeraCartaCliqueada(carta)
   }
 

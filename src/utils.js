@@ -21,7 +21,7 @@ export const crearCartaHTML = (carta, handleClickCarta) => {
 const barajaInicial = []
 let barajado = []
 const columnas = []
-const tipos = ['corazones', 'diamantes', 'treboles', 'picas']
+export const tipos = ['corazones', 'diamantes', 'treboles', 'picas']
 const colores = {
   corazones: 'rojo',
   diamantes: 'rojo',
