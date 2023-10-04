@@ -6,14 +6,23 @@ export default function Grupo2() {
   const {
     primeraCartaCliqueada,
     setPrimeraCartaCliqueada,
-    setCartasVolteadas
+    setCartasVolteadas,
+    allowDrop
   } = useContext(GameContext)
 
   const [casa, setCasa] = useState([])
 
   const handleClick = () => {
     console.log('Casillas: ', primeraCartaCliqueada)
-    if (primeraCartaCliqueada.numero === 1) {
+  }
+
+  const drop = (ev) => {
+    ev.preventDefault()
+
+    console.log('drop grupo2', ev)
+    if (primeraCartaCliqueada && primeraCartaCliqueada.numero === 1) {
+      const data = ev.dataTransfer.getData('text')
+      ev.target.appendChild(document.getElementById(data))
       console.log('se puede mover')
       setCasa((prevCasa) => [...prevCasa, primeraCartaCliqueada])
       setCartasVolteadas((prevCartasVolteadas) =>
@@ -26,9 +35,15 @@ export default function Grupo2() {
       console.log('no se puede mover')
     }
   }
+
   return (
     <div className="grupo2">
-      <div className="carta" onClick={handleClick}>
+      <div
+        className="carta"
+        onClick={handleClick}
+        onDrop={(e) => drop(e)}
+        onDragOver={(e) => allowDrop(e)}
+      >
         {casa.map((carta, index) => (
           <div
             key={index}
@@ -42,9 +57,6 @@ export default function Grupo2() {
           </div>
         ))}
       </div>
-      <div className="carta"></div>
-      <div className="carta"></div>
-      <div className="carta"></div>
     </div>
   )
 }

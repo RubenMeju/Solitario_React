@@ -14,6 +14,11 @@ export default function Mesa() {
 
   const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
 
+  const allowDrop = (ev) => {
+    ev.preventDefault()
+    // console.log('allowDrop', ev)
+  }
+
   useEffect(() => {
     if (isPlay) {
       crearBaraja()
@@ -51,7 +56,8 @@ export default function Mesa() {
           cartasVolteadas,
           setCartasVolteadas,
           primeraCartaCliqueada,
-          setPrimeraCartaCliqueada
+          setPrimeraCartaCliqueada,
+          allowDrop
         }}
       >
         <div className="fila1">

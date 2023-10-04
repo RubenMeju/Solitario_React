@@ -9,7 +9,9 @@ export default function Grupo1() {
     cartasVolteadas,
     setCartasVolteadas,
     primeraCartaCliqueada,
-    setPrimeraCartaCliqueada
+    setPrimeraCartaCliqueada,
+    allowDrop,
+    drop
   } = useContext(GameContext)
 
   const handleClick = (carta) => {
@@ -30,6 +32,14 @@ export default function Grupo1() {
       setCartasVolteadas([])
     }
   }
+  const drag = (ev, carta) => {
+    console.log('Arrastro carta (drag)', ev)
+    ev.dataTransfer.setData('text', ev.target.id)
+    setPrimeraCartaCliqueada(carta)
+  }
+
+  console.log('Barajado', barajado)
+  console.log('cartasVolteadas', cartasVolteadas)
 
   return (
     <div className="container">
@@ -53,12 +63,15 @@ export default function Grupo1() {
       <section className="section2">
         {cartasVolteadas.map((carta, index) => (
           <div
+            id="div1"
+            onDrop={(e) => drop(e)}
+            onDragOver={(e) => allowDrop(e)}
             key={index}
             data-numero={carta.numero}
             data-color={carta.color}
             data-tipo={carta.tipo}
             data-flipped={carta.flipped}
-            onClick={() => setPrimeraCartaCliqueada(carta)}
+            // onClick={() => setPrimeraCartaCliqueada(carta)}
           >
             <img
               src={carta.img}
@@ -68,6 +81,9 @@ export default function Grupo1() {
                 border:
                   primeraCartaCliqueada === carta ? '2px solid red' : 'none'
               }}
+              draggable={true}
+              onDragStart={(e) => drag(e, carta)}
+              id="drag1"
             />
           </div>
         ))}
