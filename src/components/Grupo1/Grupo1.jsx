@@ -16,8 +16,8 @@ export default function Grupo1() {
 
   const handleClick = (carta) => {
     setPrimeraCartaCliqueada([])
-    console.log('la carta q clikeo: ', carta)
-    console.log('la primera carta cliqueada', primeraCartaCliqueada)
+    // console.log('la carta q clikeo: ', carta)
+    //  console.log('la primera carta cliqueada', primeraCartaCliqueada)
 
     // añado la carta cliqueada a cartas volteadas
     setCartasVolteadas((prevCartasVolteadas) => [...prevCartasVolteadas, carta])
@@ -40,8 +40,8 @@ export default function Grupo1() {
     setPrimeraCartaCliqueada(carta)
   }
 
-  console.log('Barajado', barajado)
-  console.log('cartasVolteadas', cartasVolteadas)
+  // console.log('Barajado', barajado)
+  // console.log('cartasVolteadas', cartasVolteadas)
 
   return (
     <div className="container">

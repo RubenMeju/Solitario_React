@@ -16,15 +16,11 @@ export default function Grupo2() {
   const [treboles, setTreboles] = useState([])
   const [picas, setPicas] = useState([])
 
-  const handleClick = () => {
-    console.log('Casillas: ', primeraCartaCliqueada)
-  }
-
   const drop = (ev, tipo) => {
     ev.preventDefault()
 
-    console.log('drop grupo2', tipo)
-    console.log('cual es la carta clickeada: ', primeraCartaCliqueada)
+    // console.log('drop grupo2', tipo)
+    // console.log('cual es la carta clickeada: ', primeraCartaCliqueada)
     if (
       primeraCartaCliqueada &&
       primeraCartaCliqueada.numero === 1 &&
@@ -84,7 +80,7 @@ export default function Grupo2() {
           id={tipo}
           className="carta"
           data-tipo={tipo}
-          onClick={handleClick}
+          //   onClick={handleClick}
           onDrop={(e) => drop(e, tipo)}
           onDragOver={(e) => allowDrop(e)}
         >

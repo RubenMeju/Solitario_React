@@ -65,6 +65,7 @@ export default function Mesa() {
 
           <Grupo2 />
         </div>
+        <Grupo3 />
       </GameContext.Provider>
     </div>
   )

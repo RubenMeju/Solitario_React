@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext } from 'react'
+import { useContext } from 'react'
 
 import { GameContext } from '../mesa/Mesa'
+import './styles.css'
 
 export default function Grupo3() {
-  const { isPlay, columnas, primeraCartaCliqueada, setPrimeraCartaCliqueada } =
+  const { columnas, primeraCartaCliqueada, setPrimeraCartaCliqueada } =
     useContext(GameContext)
-  const [update, setUpdate] = useState(false)
 
   const handleClickCarta = (carta) => {
     console.log('Carta selecionada', carta)
@@ -40,6 +40,7 @@ export default function Grupo3() {
     }
   }
 
+  /*
   const prepararCartasGrupo3 = () => {
     // Limpiar el contenido de todas las columnas antes de agregar las cartas
     for (let i = 0; i < columnas.length; i++) {
@@ -65,16 +66,36 @@ export default function Grupo3() {
       prepararCartasGrupo3()
     }
   }, [columnas, update, primeraCartaCliqueada])
+*/
 
+  console.log('las columnas: ', columnas)
   return (
     <div className="grupo3">
-      <div className="carta" id="columna-0"></div>
-      <div className="carta" id="columna-1"></div>
-      <div className="carta" id="columna-2"></div>
-      <div className="carta" id="columna-3"></div>
-      <div className="carta" id="columna-4"></div>
-      <div className="carta" id="columna-5"></div>
-      <div className="carta" id="columna-6"></div>
+      {columnas.map((columnaBase, index) => (
+        <div key={index} className="columna">
+          {columnaBase.map((carta, cartaIndex) => (
+            <div
+              key={cartaIndex}
+              data-numero={carta.numero}
+              data-color={carta.color}
+              data-tipo={carta.tipo}
+              className=" pos-absolute"
+              style={{ marginTop: cartaIndex * 30 + 'px' }}
+            >
+              {cartaIndex === columnaBase.length - 1 ? (
+                // Si es la última carta, muestra la imagen correcta
+                <img
+                  src={carta.img}
+                  alt={`Carta ${carta.numero} de ${carta.tipo}`}
+                />
+              ) : (
+                // Si no es la última carta, muestra la imagen boca abajo
+                <img src="back.png" alt="Carta boca abajo" />
+              )}
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   )
 }
