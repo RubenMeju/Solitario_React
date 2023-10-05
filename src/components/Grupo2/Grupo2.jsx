@@ -27,7 +27,6 @@ export default function Grupo2() {
       primeraCartaCliqueada.numero === 1 &&
       primeraCartaCliqueada.tipo === tipo
     ) {
-      console.log('se puede mover')
       if (tipo === 'treboles') {
         console.log('IF DE TREBOLES')
         setTreboles((prevTreboles) => [...prevTreboles, primeraCartaCliqueada])
@@ -68,11 +67,9 @@ export default function Grupo2() {
         )
       }
       const newState = [...columnas]
-      // Mueve la carta de la primera columna a la segunda columna
-      newState[primeraCartaCliqueada.columna].pop() // Elimina la carta de la primera columna
-      // ultimaCartaDeLaColumna.flipped = false
-      // newState[ultimaCartaDeLaColumna.columna].push(cartaMovida) // Agrega la carta a la segunda columna
-      console.log('newstate :', newState)
+      // Elimina la carta de la primera columna
+      newState[primeraCartaCliqueada.casilla].pop()
+
       // Actualiza el estado con la nueva disposición de las columnas
       setColumnas(newState)
       setPrimeraCartaCliqueada([])

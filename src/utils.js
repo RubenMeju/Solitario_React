@@ -36,7 +36,7 @@ export const crearBaraja = () => {
         color: colores[tipos[j]],
         tipo: tipos[j],
         img: `${i}_de_${tipos[j]}.png`,
-        columna: 0,
+        casilla: 0,
         flipped: true
       }
       barajaInicial.push(carta)
@@ -57,7 +57,7 @@ export const darCartas = () => {
     columnas.push([])
     for (let j = 0; j < i + 1; j++) {
       const primeraCarta = barajado[0]
-      primeraCarta.columna = i
+      primeraCarta.casilla = i
       barajado.shift()
       columnas[i].push(primeraCarta)
     }

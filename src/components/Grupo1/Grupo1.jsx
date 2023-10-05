@@ -14,7 +14,7 @@ export default function Grupo1() {
     drop
   } = useContext(GameContext)
 
-  const handleClick = (carta) => {
+  const volterCarta = (carta) => {
     setPrimeraCartaCliqueada([])
     // console.log('la carta q clikeo: ', carta)
     //  console.log('la primera carta cliqueada', primeraCartaCliqueada)
@@ -35,7 +35,6 @@ export default function Grupo1() {
     }
   }
   const drag = (ev, carta) => {
-    console.log('Arrastro carta (drag)', ev)
     ev.dataTransfer.setData('text', carta)
     setPrimeraCartaCliqueada(carta)
   }
@@ -56,7 +55,7 @@ export default function Grupo1() {
               data-color={carta.color}
               data-tipo={carta.tipo}
               data-flipped={carta.flipped}
-              onClick={() => handleClick(carta)}
+              onClick={() => volterCarta(carta)}
             >
               <img src="back.png" alt="carta" className="pos-absolute" />
             </div>
@@ -69,6 +68,7 @@ export default function Grupo1() {
             onDrop={(e) => drop(e)}
             onDragOver={(e) => allowDrop(e)}
             key={index}
+            data-casilla={0}
             data-numero={carta.numero}
             data-color={carta.color}
             data-tipo={carta.tipo}

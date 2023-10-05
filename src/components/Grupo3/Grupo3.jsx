@@ -5,6 +5,8 @@ import './styles.css'
 
 export default function Grupo3() {
   const {
+    cartasVolteadas,
+    setCartasVolteadas,
     columnas,
     setColumnas,
     primeraCartaCliqueada,
@@ -14,63 +16,74 @@ export default function Grupo3() {
 
   const drag = (e, carta) => {
     e.dataTransfer.setData('drag3', e.target.id)
-    console.log('Carta selecionada drag', carta)
     setPrimeraCartaCliqueada(carta)
   }
-  const encontrarUltimaCartaEnColumna = (columnaIndex, cartas) => {
-    // Verificamos si el índice de la columna es válido
-    if (columnaIndex >= 0 && columnaIndex < cartas.length) {
-      // Obtenemos la columna específica
-      const columna = cartas[columnaIndex]
+  const encontrarUltimaCartaEnCasilla = (casillaIndex, cartas) => {
+    // Verificamos si el índice de la casilla es válido
+    if (casillaIndex >= 0 && casillaIndex < cartas.length) {
+      // Obtenemos la casilla específica
+      const casilla = cartas[casillaIndex]
 
-      // Verificamos si la columna tiene al menos una carta
-      if (columna.length > 0) {
-        // La última carta en la columna es la que se encuentra en la posición final del array
-        return columna[columna.length - 1]
+      // Verificamos si la casilla tiene al menos una carta
+      if (casilla.length > 0) {
+        // La última carta en la casilla es la que se encuentra en la posición final del array
+        return casilla[casilla.length - 1]
       }
     }
 
-    // Si la columna no es válida o está vacía, podemos devolver un valor nulo o un mensaje de error, dependiendo de tu preferencia.
-    return null // o 'No hay cartas en esta columna' u otro mensaje personalizado.
+    // Si la casilla no es válida o está vacía, podemos devolver un valor nulo o un mensaje de error, dependiendo de tu preferencia.
+    return null // o 'No hay cartas en esta casilla' u otro mensaje personalizado.
   }
 
-  const drop = (e, columna) => {
-    console.log('mejuuu: ', columna)
+  const drop = (e, casilla) => {
     e.preventDefault()
-    const ultimaCartaDeLaColumna = encontrarUltimaCartaEnColumna(
-      columna,
+    const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnCasilla(
+      casilla,
       columnas
     )
-    console.log('Soy la ultima carta de la columna:', ultimaCartaDeLaColumna)
+    console.log('ultima carta de la casilla', ultimaCartaDeLaCasilla)
     // se compara que el numero sea menor y q sea  de distinto color
     if (
-      primeraCartaCliqueada.numero < ultimaCartaDeLaColumna.numero &&
-      primeraCartaCliqueada.color !== ultimaCartaDeLaColumna.color
+      primeraCartaCliqueada.numero < ultimaCartaDeLaCasilla.numero &&
+      primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
     ) {
-      console.log('se puede mover a esta columna')
-      //   primeraCartaCliqueada.columna
-      const newState = [...columnas]
-      console.log('numerito de la columan :', primeraCartaCliqueada.columna)
+      const newColumnas = [...columnas]
 
-      // Mueve la carta de la primera columna a la segunda columna
-      const cartaMovida = newState[primeraCartaCliqueada.columna].pop() // Elimina la carta de la primera columna
-      ultimaCartaDeLaColumna.flipped = false
-      newState[ultimaCartaDeLaColumna.columna].push(cartaMovida) // Agrega la carta a la segunda columna
-      console.log('newstate :', newState)
-      // Actualiza el estado con la nueva disposición de las columnas
-      setColumnas(newState)
+      if (primeraCartaCliqueada.casilla === 0) {
+        console.log('la carta viene del grupo1', primeraCartaCliqueada)
+        const newCartasVolteadas = [...cartasVolteadas]
+        newCartasVolteadas.pop()
+        setCartasVolteadas(newCartasVolteadas)
+        console.log('que es newcartasvolteadas: ', newCartasVolteadas)
+        ultimaCartaDeLaCasilla.flipped = false
+        // Agrega la carta a la segunda casilla
+        newColumnas[ultimaCartaDeLaCasilla.casilla].push(primeraCartaCliqueada)
+
+        // Actualiza el estado con la nueva disposición de las columnas
+        setColumnas(newColumnas)
+      } else {
+        // Elimina la carta de la primera columna
+        const cartaMovida = newColumnas[primeraCartaCliqueada.casilla].pop()
+        // Se voltea la carta
+        ultimaCartaDeLaCasilla.flipped = false
+        // Agrega la carta a la segunda casilla
+        newColumnas[ultimaCartaDeLaCasilla.casilla].push(cartaMovida)
+
+        // Actualiza el estado con la nueva disposición de las columnas
+        setColumnas(newColumnas)
+      }
     } else {
       console.log('NO SE PUEDE MOVER A ESTA COLUMNA')
     }
   }
-
+  console.log('columnas', columnas)
   return (
     <div className="grupo3">
       {columnas.map((columnaBase, index) => (
         <div
           key={index}
           className="columna"
-          data-columna={index}
+          data-casilla={index}
           onDrop={(e) => drop(e, index)}
           onDragOver={(e) => allowDrop(e)}
         >

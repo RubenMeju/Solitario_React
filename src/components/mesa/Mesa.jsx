@@ -13,10 +13,13 @@ export default function Mesa() {
   const [cartasVolteadas, setCartasVolteadas] = useState([])
 
   const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
+  const [ultimaCartaCliqueada, setUltimaCartaCliqueada] = useState(null)
+
+  console.log('1-Carta selecionada', primeraCartaCliqueada)
+  console.log('2-Ultima carta selecionada', ultimaCartaCliqueada)
 
   const allowDrop = (ev) => {
     ev.preventDefault()
-    // console.log('allowDrop', ev)
   }
 
   useEffect(() => {
@@ -28,15 +31,7 @@ export default function Mesa() {
       setColumnas(columnas)
     }
   }, [isPlay])
-  /*
-  useEffect(() => {
-    // console.log('useEffect mesa 2')
 
-    if (barajado.length > 0) {
-      darCartas(barajado, columnas, setColumnas)
-    }
-  }, [barajado])
-*/
   return (
     <div className="mesa">
       <button
@@ -57,6 +52,8 @@ export default function Mesa() {
           setCartasVolteadas,
           primeraCartaCliqueada,
           setPrimeraCartaCliqueada,
+          ultimaCartaCliqueada,
+          setUltimaCartaCliqueada,
           allowDrop
         }}
       >
