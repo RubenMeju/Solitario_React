@@ -1,4 +1,4 @@
-export const crearCartaHTML = (carta, handleClickCarta) => {
+/* export const crearCartaHTML = (carta, handleClickCarta) => {
   const cartaHTML = document.createElement('div')
   const imagen = document.createElement('img')
   if (carta.flipped) {
@@ -16,7 +16,7 @@ export const crearCartaHTML = (carta, handleClickCarta) => {
   cartaHTML.appendChild(imagen)
   return cartaHTML
 }
-
+*/
 const barajaInicial = []
 let barajado = []
 const columnas = []
@@ -36,6 +36,7 @@ export const crearBaraja = () => {
         color: colores[tipos[j]],
         tipo: tipos[j],
         img: `${i}_de_${tipos[j]}.png`,
+        columna: 0,
         flipped: true
       }
       barajaInicial.push(carta)
@@ -56,6 +57,7 @@ export const darCartas = () => {
     columnas.push([])
     for (let j = 0; j < i + 1; j++) {
       const primeraCarta = barajado[0]
+      primeraCarta.columna = i
       barajado.shift()
       columnas[i].push(primeraCarta)
     }

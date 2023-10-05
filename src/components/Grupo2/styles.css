@@ -1,5 +1,4 @@
-.carta {
-  width: 150px;
-  height: 200px;
-  background-color: rgb(80, 80, 80, 0.5);
+.grupo2 {
+  display: flex;
+  gap: 20px;
 }
