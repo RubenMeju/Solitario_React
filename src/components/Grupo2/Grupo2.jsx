@@ -8,9 +8,10 @@ export default function Grupo2() {
     primeraCartaCliqueada,
     setPrimeraCartaCliqueada,
     setCartasVolteadas,
-    allowDrop
+    allowDrop,
+    columnas,
+    setColumnas
   } = useContext(GameContext)
-
   const [corazones, setCorazones] = useState([])
   const [diamantes, setDiamantes] = useState([])
   const [treboles, setTreboles] = useState([])
@@ -66,6 +67,14 @@ export default function Grupo2() {
           )
         )
       }
+      const newState = [...columnas]
+      // Mueve la carta de la primera columna a la segunda columna
+      newState[primeraCartaCliqueada.columna].pop() // Elimina la carta de la primera columna
+      // ultimaCartaDeLaColumna.flipped = false
+      // newState[ultimaCartaDeLaColumna.columna].push(cartaMovida) // Agrega la carta a la segunda columna
+      console.log('newstate :', newState)
+      // Actualiza el estado con la nueva disposición de las columnas
+      setColumnas(newState)
       setPrimeraCartaCliqueada([])
     } else {
       console.log('no se puede mover')
