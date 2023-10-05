@@ -2,6 +2,7 @@ import { useContext } from 'react'
 
 import { GameContext } from '../mesa/Mesa'
 import './styles.css'
+import { encontrarUltimaCartaEnCasilla } from '../../utils'
 
 export default function Grupo3() {
   const {
@@ -17,22 +18,6 @@ export default function Grupo3() {
   const drag = (e, carta) => {
     e.dataTransfer.setData('drag3', e.target.id)
     setPrimeraCartaCliqueada(carta)
-  }
-  const encontrarUltimaCartaEnCasilla = (casillaIndex, cartas) => {
-    // Verificamos si el índice de la casilla es válido
-    if (casillaIndex >= 0 && casillaIndex < cartas.length) {
-      // Obtenemos la casilla específica
-      const casilla = cartas[casillaIndex]
-
-      // Verificamos si la casilla tiene al menos una carta
-      if (casilla.length > 0) {
-        // La última carta en la casilla es la que se encuentra en la posición final del array
-        return casilla[casilla.length - 1]
-      }
-    }
-
-    // Si la casilla no es válida o está vacía, podemos devolver un valor nulo o un mensaje de error, dependiendo de tu preferencia.
-    return null // o 'No hay cartas en esta casilla' u otro mensaje personalizado.
   }
 
   const drop = (e, casilla) => {
