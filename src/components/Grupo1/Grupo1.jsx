@@ -51,6 +51,7 @@ export default function Grupo1() {
           .map((carta, index) => (
             <div
               key={index}
+              data-casilla={11}
               data-numero={carta.numero}
               data-color={carta.color}
               data-tipo={carta.tipo}
@@ -68,7 +69,7 @@ export default function Grupo1() {
             onDrop={(e) => drop(e)}
             onDragOver={(e) => allowDrop(e)}
             key={index}
-            data-casilla={0}
+            data-casilla={11}
             data-numero={carta.numero}
             data-color={carta.color}
             data-tipo={carta.tipo}

@@ -36,7 +36,7 @@ export const crearBaraja = () => {
         color: colores[tipos[j]],
         tipo: tipos[j],
         img: `${i}_de_${tipos[j]}.png`,
-        casilla: 0,
+        casilla: 11,
         flipped: true
       }
       barajaInicial.push(carta)

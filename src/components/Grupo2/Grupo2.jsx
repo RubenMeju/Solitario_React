@@ -1,149 +1,68 @@
 import { useContext, useState } from 'react'
 import './styles.css'
 import { GameContext } from '../mesa/Mesa'
-import { tipos } from '../../utils'
+import { encontrarUltimaCartaEnCasilla } from '../../utils'
 
 export default function Grupo2() {
   const {
     primeraCartaCliqueada,
     setPrimeraCartaCliqueada,
-    setCartasVolteadas,
     allowDrop,
+    cartasVolteadas,
+    setCartasVolteadas,
     columnas,
     setColumnas
   } = useContext(GameContext)
-  const [corazones, setCorazones] = useState([])
-  const [diamantes, setDiamantes] = useState([])
-  const [treboles, setTreboles] = useState([])
-  const [picas, setPicas] = useState([])
+  const [casas, setCasas] = useState([{}, {}, {}, {}])
 
-  const drop = (ev, tipo) => {
-    ev.preventDefault()
+  const drop = (e, carta) => {
+    e.preventDefault()
+    const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnCasilla(
+      carta,
+      columnas
+    )
+    console.log('ultima carta de la casilla', ultimaCartaDeLaCasilla)
+    if (primeraCartaCliqueada && primeraCartaCliqueada.numero === 1) {
+      const casasCopia = [...casas]
 
-    // console.log('drop grupo2', tipo)
-    // console.log('cual es la carta clickeada: ', primeraCartaCliqueada)
-    if (
-      primeraCartaCliqueada &&
-      primeraCartaCliqueada.numero === 1 &&
-      primeraCartaCliqueada.tipo === tipo
-    ) {
-      if (tipo === 'treboles') {
-        console.log('IF DE TREBOLES')
-        setTreboles((prevTreboles) => [...prevTreboles, primeraCartaCliqueada])
-        setCartasVolteadas((prevCartasVolteadas) =>
-          prevCartasVolteadas.filter(
-            (cartasVolteadas) => cartasVolteadas !== primeraCartaCliqueada
-          )
-        )
-      } else if (tipo === 'diamantes') {
-        console.log('IF DE DIAMANTES')
-        setDiamantes((prevDiamantes) => [
-          ...prevDiamantes,
-          primeraCartaCliqueada
-        ])
-        setCartasVolteadas((prevCartasVolteadas) =>
-          prevCartasVolteadas.filter(
-            (cartasVolteadas) => cartasVolteadas !== primeraCartaCliqueada
-          )
-        )
-      } else if (tipo === 'picas') {
-        console.log('IF DE PICAS')
-        setPicas((prevPicas) => [...prevPicas, primeraCartaCliqueada])
-        setCartasVolteadas((prevCartasVolteadas) =>
-          prevCartasVolteadas.filter(
-            (cartasVolteadas) => cartasVolteadas !== primeraCartaCliqueada
-          )
-        )
-      } else if (tipo === 'corazones') {
-        console.log('IF DE CORAZONES')
-        setCorazones((prevCorazones) => [
-          ...prevCorazones,
-          primeraCartaCliqueada
-        ])
-        setCartasVolteadas((prevCartasVolteadas) =>
-          prevCartasVolteadas.filter(
-            (cartasVolteadas) => cartasVolteadas !== primeraCartaCliqueada
-          )
-        )
+      // Establece datos en el primer elemento del array
+      casasCopia[0] = primeraCartaCliqueada // Reemplaza esto con tus datos
+
+      // Actualiza el estado con la nueva copia que contiene los datos modificados
+      setCasas(casasCopia)
+      if (primeraCartaCliqueada.casilla === 11) {
+        const newCartasVolteadas = [...cartasVolteadas]
+        newCartasVolteadas.pop()
+        setCartasVolteadas(newCartasVolteadas)
       }
-      const newState = [...columnas]
+      const newColumnas = [...columnas]
       // Elimina la carta de la primera columna
-      newState[primeraCartaCliqueada.casilla].pop()
+      newColumnas[primeraCartaCliqueada.casilla].pop()
 
       // Actualiza el estado con la nueva disposición de las columnas
-      setColumnas(newState)
+      setColumnas(newColumnas)
       setPrimeraCartaCliqueada([])
     } else {
       console.log('no se puede mover')
     }
   }
-
+  console.log('casas: ', casas)
   return (
     <div className="grupo2">
-      {tipos.map((tipo) => (
+      {casas.map((carta, index) => (
         <div
-          key={tipo}
-          id={tipo}
+          key={index}
           className="carta"
-          data-tipo={tipo}
-          //   onClick={handleClick}
-          onDrop={(e) => drop(e, tipo)}
-          onDragOver={(e) => allowDrop(e)}
+          data-casilla={`2${index}`}
+          data-numero={carta.numero}
+          data-color={carta.color}
+          data-tipo={carta.tipo}
+          data-flipped={carta.flipped}
+          onDrop={(e) => drop(e)}
+          onDragOver={(e) => allowDrop(e, carta)}
+          // onClick={() => handleClick(carta)}
         >
-          {tipo}
-          {/* Mapeo de todas las cartas independientemente de su tipo */}
-          {tipo === 'corazones' &&
-            corazones.map((carta, index) => (
-              <div
-                key={index}
-                data-numero={carta.numero}
-                data-color={carta.color}
-                data-tipo={carta.tipo}
-                data-flipped={carta.flipped}
-                // onClick={() => handleClick(carta)}
-              >
-                <img src={carta.img} alt="carta" className="pos-absolute" />
-              </div>
-            ))}
-          {tipo === 'diamantes' &&
-            diamantes.map((carta, index) => (
-              <div
-                key={index}
-                data-numero={carta.numero}
-                data-color={carta.color}
-                data-tipo={carta.tipo}
-                data-flipped={carta.flipped}
-                // onClick={() => handleClick(carta)}
-              >
-                <img src={carta.img} alt="carta" className="pos-absolute" />
-              </div>
-            ))}
-          {tipo === 'treboles' &&
-            treboles.map((carta, index) => (
-              <div
-                key={index}
-                data-numero={carta.numero}
-                data-color={carta.color}
-                data-tipo={carta.tipo}
-                data-flipped={carta.flipped}
-                // onClick={() => handleClick(carta)}
-              >
-                <img src={carta.img} alt="carta" className="pos-absolute" />
-              </div>
-            ))}
-          {tipo === 'picas' &&
-            picas.map((carta, index) => (
-              <div
-                key={index}
-                data-numero={carta.numero}
-                data-color={carta.color}
-                data-tipo={carta.tipo}
-                data-flipped={carta.flipped}
-                // onClick={() => handleClick(carta)}
-              >
-                <img src={carta.img} alt="carta" className="pos-absolute" />
-              </div>
-            ))}
+          <img src={carta.img} alt="carta" className="pos-absolute" />
         </div>
       ))}
     </div>

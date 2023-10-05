@@ -33,13 +33,13 @@ export default function Grupo3() {
       primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
     ) {
       const newColumnas = [...columnas]
-
-      if (primeraCartaCliqueada.casilla === 0) {
+      console.log('meju pruebas:', Number(primeraCartaCliqueada.casilla))
+      if (primeraCartaCliqueada.casilla === 11) {
         console.log('la carta viene del grupo1', primeraCartaCliqueada)
         const newCartasVolteadas = [...cartasVolteadas]
         newCartasVolteadas.pop()
         setCartasVolteadas(newCartasVolteadas)
-        console.log('que es newcartasvolteadas: ', newCartasVolteadas)
+        //  console.log('que es newcartasvolteadas: ', newCartasVolteadas)
         ultimaCartaDeLaCasilla.flipped = false
         // Agrega la carta a la segunda casilla
         newColumnas[ultimaCartaDeLaCasilla.casilla].push(primeraCartaCliqueada)
@@ -76,7 +76,7 @@ export default function Grupo3() {
             <div
               key={cartaIndex}
               id={carta.numero + '-' + carta.tipo + '-' + carta.color}
-              data-columna={index}
+              data-casilla={index}
               data-numero={carta.numero}
               data-color={carta.color}
               data-tipo={carta.tipo}
