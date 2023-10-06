@@ -16,9 +16,6 @@ export default function Grupo1() {
 
   const volterCarta = (carta) => {
     setPrimeraCartaCliqueada([])
-    // console.log('la carta q clikeo: ', carta)
-    //  console.log('la primera carta cliqueada', primeraCartaCliqueada)
-
     // añado la carta cliqueada a cartas volteadas
     setCartasVolteadas((prevCartasVolteadas) => [...prevCartasVolteadas, carta])
     // quito la carta cliqueada a barajado
@@ -29,7 +26,7 @@ export default function Grupo1() {
 
   const resetearCartas = () => {
     if (barajado.length === 0) {
-      console.log('resetear cartas', barajado)
+      // console.log('resetear cartas', barajado)
       setBarajado(cartasVolteadas)
       setCartasVolteadas([])
     }
@@ -38,9 +35,6 @@ export default function Grupo1() {
     ev.dataTransfer.setData('text', carta)
     setPrimeraCartaCliqueada(carta)
   }
-
-  // console.log('Barajado', barajado)
-  // console.log('cartasVolteadas', cartasVolteadas)
 
   return (
     <div className="container">
@@ -74,7 +68,6 @@ export default function Grupo1() {
             data-color={carta.color}
             data-tipo={carta.tipo}
             data-flipped={carta.flipped}
-            // onClick={() => setPrimeraCartaCliqueada(carta)}
           >
             <img
               src={carta.img}

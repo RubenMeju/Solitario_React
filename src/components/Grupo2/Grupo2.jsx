@@ -25,10 +25,7 @@ export default function Grupo2() {
       Object.keys(casas[posicion]).length > 0
     ) {
       ultimaPosicionSelecionada = casas[posicion]
-      console.log('ya hay una carta en el destino', ultimaPosicionSelecionada)
     }
-
-    console.log('aquiiiii ultima posicion', ultimaPosicionSelecionada)
 
     // intento hacer la condicion color tipo numero mayo q
     if (
@@ -38,9 +35,6 @@ export default function Grupo2() {
           1) ||
       (ultimaPosicionSelecionada === null && primeraCartaCliqueada.numero === 1)
     ) {
-      console.log(
-        'el color y el tipo coinciden y la carta a añadir es mayor en 1'
-      )
       const newCasas = [...casas]
 
       newCasas[posicion] = primeraCartaCliqueada
@@ -64,10 +58,7 @@ export default function Grupo2() {
     } else {
       console.log('No coincide el color o el tipo')
     }
-
-    console.log('ultima carta selecionada', ultimaPosicionSelecionada)
   }
-  console.log('casas: ', casas)
   return (
     <div className="grupo2">
       {casas.map((carta, index) => (
@@ -81,7 +72,6 @@ export default function Grupo2() {
           data-flipped={carta.flipped}
           onDrop={(e) => drop(e, `2${index}`)}
           onDragOver={(e) => allowDrop(e)}
-          // onClick={() => handleClick(carta)}
         >
           <img src={carta.img} alt="carta" className="pos-absolute" />
         </div>
