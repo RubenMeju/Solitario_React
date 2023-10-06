@@ -29,7 +29,7 @@ export default function Grupo3() {
     console.log('ultima carta de la casilla', ultimaCartaDeLaCasilla)
     // se compara que el numero sea menor y q sea  de distinto color
     if (
-      primeraCartaCliqueada.numero < ultimaCartaDeLaCasilla.numero &&
+      primeraCartaCliqueada.numero + 1 == ultimaCartaDeLaCasilla.numero &&
       primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
     ) {
       const newColumnas = [...columnas]
