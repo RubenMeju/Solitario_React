@@ -39,6 +39,8 @@ export default function Grupo3() {
         setCartasVolteadas(newCartasVolteadas)
         //  console.log('que es newcartasvolteadas: ', newCartasVolteadas)
         ultimaCartaDeLaCasilla.flipped = false
+        // Modifico la casilla por la actual
+        primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
         // Agrega la carta a la casilla correspontiente
         newColumnas[ultimaCartaDeLaCasilla.casilla].push(primeraCartaCliqueada)
 
@@ -49,6 +51,9 @@ export default function Grupo3() {
         const cartaMovida = newColumnas[primeraCartaCliqueada.casilla].pop()
         // Se voltea la carta
         ultimaCartaDeLaCasilla.flipped = false
+        // Modifico la casilla por la actual
+        primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
+
         // Agrega la carta a la segunda casilla
         newColumnas[ultimaCartaDeLaCasilla.casilla].push(cartaMovida)
 
