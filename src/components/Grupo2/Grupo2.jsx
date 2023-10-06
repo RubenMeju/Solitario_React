@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react'
 import './styles.css'
 import { GameContext } from '../mesa/Mesa'
-import { encontrarUltimaCartaEnCasilla } from '../../utils'
 
 export default function Grupo2() {
   const {
@@ -15,32 +14,38 @@ export default function Grupo2() {
   } = useContext(GameContext)
   const [casas, setCasas] = useState([{}, {}, {}, {}])
 
-  const drop = (e, carta) => {
+  const drop = (e, casilla) => {
+    console.log('la casilla es: ', casilla)
     e.preventDefault()
-    const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnCasilla(
-      carta,
-      columnas
-    )
-    console.log('ultima carta de la casilla', ultimaCartaDeLaCasilla)
+    // le quito el primer digito a casilla
+    const posicion = casilla.toString().substring(1)
+    console.log('posicion: ', posicion)
+    // compruebo cual es la ultima carta de la casilla (posicion)
+    if (
+      casas[posicion] !== undefined &&
+      Object.keys(casas[posicion]).length > 0
+    ) {
+      console.log(casas[posicion])
+    }
     if (primeraCartaCliqueada && primeraCartaCliqueada.numero === 1) {
-      const casasCopia = [...casas]
+      const newCasas = [...casas]
 
-      // Establece datos en el primer elemento del array
-      casasCopia[0] = primeraCartaCliqueada // Reemplaza esto con tus datos
+      newCasas[posicion] = primeraCartaCliqueada
 
       // Actualiza el estado con la nueva copia que contiene los datos modificados
-      setCasas(casasCopia)
+      setCasas(newCasas)
       if (primeraCartaCliqueada.casilla === 11) {
         const newCartasVolteadas = [...cartasVolteadas]
         newCartasVolteadas.pop()
         setCartasVolteadas(newCartasVolteadas)
+      } else {
+        const newColumnas = [...columnas]
+        // Elimina la carta de la primera columna
+        newColumnas[primeraCartaCliqueada.casilla].pop()
+        // Actualiza el estado con la nueva disposición de las columnas
+        setColumnas(newColumnas)
       }
-      const newColumnas = [...columnas]
-      // Elimina la carta de la primera columna
-      newColumnas[primeraCartaCliqueada.casilla].pop()
 
-      // Actualiza el estado con la nueva disposición de las columnas
-      setColumnas(newColumnas)
       setPrimeraCartaCliqueada([])
     } else {
       console.log('no se puede mover')
@@ -58,8 +63,8 @@ export default function Grupo2() {
           data-color={carta.color}
           data-tipo={carta.tipo}
           data-flipped={carta.flipped}
-          onDrop={(e) => drop(e)}
-          onDragOver={(e) => allowDrop(e, carta)}
+          onDrop={(e) => drop(e, `2${index}`)}
+          onDragOver={(e) => allowDrop(e)}
           // onClick={() => handleClick(carta)}
         >
           <img src={carta.img} alt="carta" className="pos-absolute" />

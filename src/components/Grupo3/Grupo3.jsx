@@ -33,15 +33,13 @@ export default function Grupo3() {
       primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
     ) {
       const newColumnas = [...columnas]
-      console.log('meju pruebas:', Number(primeraCartaCliqueada.casilla))
       if (primeraCartaCliqueada.casilla === 11) {
-        console.log('la carta viene del grupo1', primeraCartaCliqueada)
         const newCartasVolteadas = [...cartasVolteadas]
         newCartasVolteadas.pop()
         setCartasVolteadas(newCartasVolteadas)
         //  console.log('que es newcartasvolteadas: ', newCartasVolteadas)
         ultimaCartaDeLaCasilla.flipped = false
-        // Agrega la carta a la segunda casilla
+        // Agrega la carta a la casilla correspontiente
         newColumnas[ultimaCartaDeLaCasilla.casilla].push(primeraCartaCliqueada)
 
         // Actualiza el estado con la nueva disposición de las columnas
@@ -61,7 +59,6 @@ export default function Grupo3() {
       console.log('NO SE PUEDE MOVER A ESTA COLUMNA')
     }
   }
-  console.log('columnas', columnas)
   return (
     <div className="grupo3">
       {columnas.map((columnaBase, index) => (

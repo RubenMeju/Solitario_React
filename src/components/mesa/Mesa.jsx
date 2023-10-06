@@ -14,10 +14,7 @@ export default function Mesa() {
 
   const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
   const [ultimaCartaCliqueada, setUltimaCartaCliqueada] = useState(null)
-
-  console.log('1-Carta selecionada', primeraCartaCliqueada)
-  console.log('2-Ultima carta selecionada', ultimaCartaCliqueada)
-
+  console.log('primeraCartaCliqueada: ', primeraCartaCliqueada)
   const allowDrop = (ev) => {
     ev.preventDefault()
   }
