@@ -59,10 +59,14 @@ export default function Grupo3() {
 
     // si la columna esta vacia agregamos la carta a la columna destino y la quitamos de la columna donde estaba
     if (ultimaCartaDeLaCasilla === null) {
+      console.log('La columna esta vacia agregamos la carta a la columna')
       const newColumnas = [...columnas]
-      // Agrega la carta a la segunda casilla
-      newColumnas[casilla].push(primeraCartaCliqueada)
+
       newColumnas[primeraCartaCliqueada.casilla].pop()
+
+      // Agrega la carta a la segunda casilla
+      primeraCartaCliqueada.casilla = casilla
+      newColumnas[casilla].push(primeraCartaCliqueada)
 
       // Actualiza el estado con la nueva disposición de las columnas
       setColumnas(newColumnas)
