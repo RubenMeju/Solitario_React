@@ -17,15 +17,13 @@ export default function Mesa() {
   // console.log('primeraCartaCliqueada: ', primeraCartaCliqueada)
 
   // funcion para agregar hover
-  const allowDrop = (ev) => {
-    ev.preventDefault()
-    ev.target.classList.add('hover')
-    console.log('over domingo')
+  const allowDrop = (e) => {
+    e.preventDefault()
+    e.target.classList.add('hover')
   }
   const dragLeave = (ev) => {
     ev.preventDefault()
     ev.target.classList.remove('hover')
-    console.log('over domingo')
   }
 
   useEffect(() => {

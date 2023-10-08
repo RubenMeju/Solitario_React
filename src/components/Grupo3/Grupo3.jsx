@@ -17,13 +17,37 @@ export default function Grupo3() {
   } = useContext(GameContext)
 
   const drag = (e, carta) => {
-    const data = e.dataTransfer.setData('meju', JSON.stringify(carta))
+    // Usamos slice para obtener todas las matrices desde la carta seleccionada hasta el final
+    const cartasDesdeSeleccionadaHastaElFinal = columnas[carta.casilla].slice(
+      carta.casilla
+    )
+
+    // Usamos flat para obtener una lista plana de todas las cartas
+    const todasLasCartas = cartasDesdeSeleccionadaHastaElFinal.flat()
+    console.log('todas las cartas', todasLasCartas)
+    /*
+    // Creamos una lista de imágenes
+    const listaDeImagenes = todasLasCartas.map((carta, index) => {
+      const imgElement = new Image()
+      imgElement.src = carta.img
+      imgElement.style.position = 'absolute'
+      imgElement.style.top = `${30 * index}px` // Espacio vertical de 30px entre imágenes
+      document.body.appendChild(imgElement) // Agregamos la imagen al DOM
+      return imgElement
+    })
+
+    // Configuramos la lista de imágenes como dragImage
+    e.dataTransfer.setDragImage(listaDeImagenes[0], 0, 0)
+*/
+    const data = e.dataTransfer.setData('meju', JSON.stringify(todasLasCartas))
     console.log('soy la data en drag: ', carta)
     setPrimeraCartaCliqueada(carta)
   }
   // tengo q conseguir arrastrar varias cartas a la vez
   const drop = (e, casilla) => {
     e.preventDefault()
+    console.log('CASILLA : ', casilla)
+
     e.target.classList.remove('hover')
     const data = e.dataTransfer.getData('meju')
     console.log('la data del DROP', data)
@@ -32,48 +56,63 @@ export default function Grupo3() {
       columnas
     )
     console.log('ultima carta de la casilla', ultimaCartaDeLaCasilla)
-    // se compara que el numero sea menor y q sea  de distinto color
-    if (
-      primeraCartaCliqueada.numero + 1 == ultimaCartaDeLaCasilla.numero &&
-      primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
-    ) {
+
+    // si la columna esta vacia agregamos la carta a la columna destino y la quitamos de la columna donde estaba
+    if (ultimaCartaDeLaCasilla === null) {
       const newColumnas = [...columnas]
-      if (primeraCartaCliqueada.casilla === 11) {
-        const newCartasVolteadas = [...cartasVolteadas]
-        newCartasVolteadas.pop()
-        setCartasVolteadas(newCartasVolteadas)
-        //  console.log('que es newcartasvolteadas: ', newCartasVolteadas)
-        ultimaCartaDeLaCasilla.flipped = false
-        // Modifico la casilla por la actual
-        primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
-        // Agrega la carta a la casilla correspontiente
-        newColumnas[ultimaCartaDeLaCasilla.casilla].push(primeraCartaCliqueada)
+      // Agrega la carta a la segunda casilla
+      newColumnas[casilla].push(primeraCartaCliqueada)
+      newColumnas[primeraCartaCliqueada.casilla].pop()
 
-        // Actualiza el estado con la nueva disposición de las columnas
-        setColumnas(newColumnas)
-      } else {
-        // Elimina la carta de la primera columna
-        const cartaMovida = newColumnas[primeraCartaCliqueada.casilla].pop()
-        // Se voltea la carta
-        ultimaCartaDeLaCasilla.flipped = false
-        // Modifico la casilla por la actual
-        primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
-
-        // Agrega la carta a la segunda casilla
-        newColumnas[ultimaCartaDeLaCasilla.casilla].push(cartaMovida)
-
-        // Actualiza el estado con la nueva disposición de las columnas
-        setColumnas(newColumnas)
-      }
+      // Actualiza el estado con la nueva disposición de las columnas
+      setColumnas(newColumnas)
     } else {
-      console.log('NO SE PUEDE MOVER A ESTA COLUMNA')
+      if (
+        primeraCartaCliqueada.numero + 1 == ultimaCartaDeLaCasilla.numero &&
+        primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
+      ) {
+        const newColumnas = [...columnas]
+        if (primeraCartaCliqueada.casilla === 11) {
+          const newCartasVolteadas = [...cartasVolteadas]
+          newCartasVolteadas.pop()
+          setCartasVolteadas(newCartasVolteadas)
+          //  console.log('que es newcartasvolteadas: ', newCartasVolteadas)
+          ultimaCartaDeLaCasilla.flipped = false
+          // Modifico la casilla por la actual
+          primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
+          // Agrega la carta a la casilla correspontiente
+          newColumnas[ultimaCartaDeLaCasilla.casilla].push(
+            primeraCartaCliqueada
+          )
+
+          // Actualiza el estado con la nueva disposición de las columnas
+          setColumnas(newColumnas)
+        } else {
+          // Elimina la carta de la primera columna
+          const cartaMovida = newColumnas[primeraCartaCliqueada.casilla].pop()
+          // Se voltea la carta
+          ultimaCartaDeLaCasilla.flipped = false
+          // Modifico la casilla por la actual
+          primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
+
+          // Agrega la carta a la segunda casilla
+          newColumnas[ultimaCartaDeLaCasilla.casilla].push(cartaMovida)
+
+          // Actualiza el estado con la nueva disposición de las columnas
+          setColumnas(newColumnas)
+        }
+      } else {
+        console.log('NO SE PUEDE MOVER A ESTA COLUMNA')
+      }
     }
+    // se compara que el numero sea menor y q sea  de distinto color
   }
   return (
     <div className="grupo3">
       {columnas.map((columnaBase, index) => (
         <div
           key={index}
+          id={index}
           className="carta"
           data-casilla={index}
           onDrop={(e) => drop(e, index)}
