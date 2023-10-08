@@ -16,6 +16,8 @@ export default function Grupo2() {
 
   const drop = (e, casilla) => {
     e.preventDefault()
+    e.target.classList.remove('hover')
+
     let ultimaPosicionSelecionada = null
     // le quito el primer digito a casilla
     const posicion = casilla.toString().substring(1)

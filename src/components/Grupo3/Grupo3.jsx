@@ -12,16 +12,21 @@ export default function Grupo3() {
     setColumnas,
     primeraCartaCliqueada,
     setPrimeraCartaCliqueada,
-    allowDrop
+    allowDrop,
+    dragLeave
   } = useContext(GameContext)
 
   const drag = (e, carta) => {
-    e.dataTransfer.setData('drag3', e.target.id)
+    const data = e.dataTransfer.setData('meju', JSON.stringify(carta))
+    console.log('soy la data en drag: ', carta)
     setPrimeraCartaCliqueada(carta)
   }
-
+  // tengo q conseguir arrastrar varias cartas a la vez
   const drop = (e, casilla) => {
     e.preventDefault()
+    e.target.classList.remove('hover')
+    const data = e.dataTransfer.getData('meju')
+    console.log('la data del DROP', data)
     const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnCasilla(
       casilla,
       columnas
@@ -69,15 +74,16 @@ export default function Grupo3() {
       {columnas.map((columnaBase, index) => (
         <div
           key={index}
-          className="columna"
+          className="carta"
           data-casilla={index}
           onDrop={(e) => drop(e, index)}
           onDragOver={(e) => allowDrop(e)}
+          onDragLeave={(e) => dragLeave(e)}
         >
           {columnaBase.map((carta, cartaIndex) => (
             <div
               key={cartaIndex}
-              id={carta.numero + '-' + carta.tipo + '-' + carta.color}
+              id="drag3"
               data-casilla={index}
               data-numero={carta.numero}
               data-color={carta.color}
@@ -86,6 +92,7 @@ export default function Grupo3() {
               style={{ marginTop: cartaIndex * 30 + 'px' }}
               draggable={true}
               onDragStart={(e) => drag(e, carta)}
+
               // onDragStart={(e) => drag(e, carta)}
             >
               {cartaIndex === columnaBase.length - 1 ||

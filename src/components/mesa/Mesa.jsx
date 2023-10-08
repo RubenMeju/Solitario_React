@@ -14,9 +14,18 @@ export default function Mesa() {
 
   const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
   const [ultimaCartaCliqueada, setUltimaCartaCliqueada] = useState(null)
-  console.log('primeraCartaCliqueada: ', primeraCartaCliqueada)
+  // console.log('primeraCartaCliqueada: ', primeraCartaCliqueada)
+
+  // funcion para agregar hover
   const allowDrop = (ev) => {
     ev.preventDefault()
+    ev.target.classList.add('hover')
+    console.log('over domingo')
+  }
+  const dragLeave = (ev) => {
+    ev.preventDefault()
+    ev.target.classList.remove('hover')
+    console.log('over domingo')
   }
 
   useEffect(() => {
@@ -51,7 +60,8 @@ export default function Mesa() {
           setPrimeraCartaCliqueada,
           ultimaCartaCliqueada,
           setUltimaCartaCliqueada,
-          allowDrop
+          allowDrop,
+          dragLeave
         }}
       >
         <div className="fila1">
