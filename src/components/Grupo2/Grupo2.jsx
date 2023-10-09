@@ -6,11 +6,12 @@ export default function Grupo2() {
   const {
     primeraCartaCliqueada,
     setPrimeraCartaCliqueada,
-    allowDrop,
     cartasVolteadas,
     setCartasVolteadas,
     columnas,
-    setColumnas
+    setColumnas,
+    allowDrop,
+    dragLeave
   } = useContext(GameContext)
   const [casas, setCasas] = useState([{}, {}, {}, {}])
 
@@ -74,6 +75,7 @@ export default function Grupo2() {
           data-flipped={carta.flipped}
           onDrop={(e) => drop(e, `2${index}`)}
           onDragOver={(e) => allowDrop(e)}
+          onDragLeave={(e) => dragLeave(e)}
         >
           <img src={carta.img} alt="carta" className="pos-absolute" />
         </div>

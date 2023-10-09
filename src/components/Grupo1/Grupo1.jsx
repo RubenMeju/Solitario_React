@@ -32,7 +32,7 @@ export default function Grupo1() {
     }
   }
   const drag = (ev, carta) => {
-    ev.dataTransfer.setData('text', carta)
+    ev.dataTransfer.setData('meju', JSON.stringify(carta))
     setPrimeraCartaCliqueada(carta)
   }
 

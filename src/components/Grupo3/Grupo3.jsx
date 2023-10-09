@@ -39,8 +39,8 @@ export default function Grupo3() {
     // Configuramos la lista de imágenes como dragImage
     e.dataTransfer.setDragImage(listaDeImagenes[0], 0, 0)
 */
-    const data = e.dataTransfer.setData('meju', JSON.stringify(todasLasCartas))
-    console.log('soy la data en drag: ', carta)
+    e.dataTransfer.setData('meju', JSON.stringify(todasLasCartas))
+    console.log('soy la data en drag3: ', carta)
     setPrimeraCartaCliqueada(carta)
   }
   // tengo q conseguir arrastrar varias cartas a la vez
@@ -49,30 +49,27 @@ export default function Grupo3() {
     console.log('CASILLA : ', casilla)
 
     e.target.classList.remove('hover')
-    const data = e.dataTransfer.getData('meju')
-    console.log('la data del DROP', data)
+    const cartasMover = JSON.parse(e.dataTransfer.getData('meju'))
+    console.log('la data del DROP', cartasMover)
     const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnCasilla(
       casilla,
       columnas
     )
     console.log('ultima carta de la casilla', ultimaCartaDeLaCasilla)
 
-    // si la columna esta vacia agregamos la carta a la columna destino y la quitamos de la columna donde estaba
     if (ultimaCartaDeLaCasilla === null) {
-      console.log('La columna esta vacia agregamos la carta a la columna')
+      console.log('La columna está vacía, agregamos la carta a la columna')
       const newColumnas = [...columnas]
-
-      newColumnas[primeraCartaCliqueada.casilla].pop()
-
-      // Agrega la carta a la segunda casilla
-      primeraCartaCliqueada.casilla = casilla
-      newColumnas[casilla].push(primeraCartaCliqueada)
-
-      // Actualiza el estado con la nueva disposición de las columnas
+      cartasMover.forEach((item) => {
+        newColumnas[item.casilla].pop()
+        item.casilla = casilla
+        newColumnas[casilla].push(item)
+        // return newColumnas
+      })
       setColumnas(newColumnas)
     } else {
       if (
-        primeraCartaCliqueada.numero + 1 == ultimaCartaDeLaCasilla.numero &&
+        primeraCartaCliqueada.numero + 1 === ultimaCartaDeLaCasilla.numero &&
         primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
       ) {
         const newColumnas = [...columnas]
@@ -80,37 +77,32 @@ export default function Grupo3() {
           const newCartasVolteadas = [...cartasVolteadas]
           newCartasVolteadas.pop()
           setCartasVolteadas(newCartasVolteadas)
-          //  console.log('que es newcartasvolteadas: ', newCartasVolteadas)
           ultimaCartaDeLaCasilla.flipped = false
-          // Modifico la casilla por la actual
           primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
-          // Agrega la carta a la casilla correspontiente
           newColumnas[ultimaCartaDeLaCasilla.casilla].push(
             primeraCartaCliqueada
           )
-
-          // Actualiza el estado con la nueva disposición de las columnas
           setColumnas(newColumnas)
         } else {
-          // Elimina la carta de la primera columna
-          const cartaMovida = newColumnas[primeraCartaCliqueada.casilla].pop()
-          // Se voltea la carta
-          ultimaCartaDeLaCasilla.flipped = false
-          // Modifico la casilla por la actual
-          primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
-
-          // Agrega la carta a la segunda casilla
-          newColumnas[ultimaCartaDeLaCasilla.casilla].push(cartaMovida)
-
-          // Actualiza el estado con la nueva disposición de las columnas
+          cartasMover.forEach((item) => {
+            console.log(
+              'cada vez q paso por el forEarch imprimo una carta : ',
+              item
+            )
+            newColumnas[item.casilla].pop()
+            ultimaCartaDeLaCasilla.flipped = false
+            item.casilla = ultimaCartaDeLaCasilla.casilla
+            newColumnas[ultimaCartaDeLaCasilla.casilla].push(item)
+            // return newColumnas
+          })
           setColumnas(newColumnas)
         }
       } else {
         console.log('NO SE PUEDE MOVER A ESTA COLUMNA')
       }
     }
-    // se compara que el numero sea menor y q sea  de distinto color
   }
+
   return (
     <div className="grupo3">
       {columnas.map((columnaBase, index) => (
