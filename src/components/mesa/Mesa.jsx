@@ -12,7 +12,6 @@ export default function Mesa() {
   const [columnas, setColumnas] = useState([])
   const [cartasVolteadas, setCartasVolteadas] = useState([])
 
-  const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
   const [ultimaCartaCliqueada, setUltimaCartaCliqueada] = useState(null)
   // console.log('primeraCartaCliqueada: ', primeraCartaCliqueada)
 
@@ -54,8 +53,6 @@ export default function Mesa() {
           setColumnas,
           cartasVolteadas,
           setCartasVolteadas,
-          primeraCartaCliqueada,
-          setPrimeraCartaCliqueada,
           ultimaCartaCliqueada,
           setUltimaCartaCliqueada,
           allowDrop,

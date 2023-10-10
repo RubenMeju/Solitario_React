@@ -62,7 +62,15 @@ export const darCartas = () => {
       columnas[i].push(primeraCarta)
     }
   }
-  // console.log('Dar cartas: ', columnas)
+
+  // set 'flipped' en 'false' para la última carta de cada columna
+  columnas.forEach((columna) => {
+    if (columna.length > 0) {
+      columna[columna.length - 1].flipped = false
+    }
+  })
+
+  console.log('Dar cartas: ', columnas)
   return { barajado, columnas }
 }
 

@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { GameContext } from '../mesa/Mesa'
 import './styles.css'
 
@@ -8,11 +8,10 @@ export default function Grupo1() {
     setBarajado,
     cartasVolteadas,
     setCartasVolteadas,
-    primeraCartaCliqueada,
-    setPrimeraCartaCliqueada,
     allowDrop,
     drop
   } = useContext(GameContext)
+  const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
 
   const volterCarta = (carta) => {
     setPrimeraCartaCliqueada([])
@@ -31,9 +30,10 @@ export default function Grupo1() {
       setCartasVolteadas([])
     }
   }
-  const drag = (ev, carta) => {
-    ev.dataTransfer.setData('meju', JSON.stringify(carta))
-    setPrimeraCartaCliqueada(carta)
+  const drag = (e, carta) => {
+    const cartaa = [carta]
+    e.dataTransfer.setData('meju', JSON.stringify(cartaa))
+    setPrimeraCartaCliqueada([carta])
   }
 
   return (

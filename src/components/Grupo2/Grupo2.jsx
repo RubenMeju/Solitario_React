@@ -4,8 +4,6 @@ import { GameContext } from '../mesa/Mesa'
 
 export default function Grupo2() {
   const {
-    primeraCartaCliqueada,
-    setPrimeraCartaCliqueada,
     cartasVolteadas,
     setCartasVolteadas,
     columnas,
@@ -18,6 +16,8 @@ export default function Grupo2() {
   const drop = (e, casilla) => {
     e.preventDefault()
     e.target.classList.remove('hover')
+    const cartaAcasa = JSON.parse(e.dataTransfer.getData('meju'))
+    console.log('DROP2 Grupo2 ---> cartaAcasa: ', cartaAcasa)
 
     let ultimaPosicionSelecionada = null
     // le quito el primer digito a casilla
@@ -32,32 +32,29 @@ export default function Grupo2() {
 
     // intento hacer la condicion color tipo numero mayo q
     if (
-      (primeraCartaCliqueada.color === ultimaPosicionSelecionada?.color &&
-        primeraCartaCliqueada.tipo === ultimaPosicionSelecionada?.tipo &&
-        primeraCartaCliqueada.numero - ultimaPosicionSelecionada?.numero ===
-          1) ||
-      (ultimaPosicionSelecionada === null && primeraCartaCliqueada.numero === 1)
+      (cartaAcasa[0]?.color === ultimaPosicionSelecionada?.color &&
+        cartaAcasa[0]?.tipo === ultimaPosicionSelecionada?.tipo &&
+        cartaAcasa[0]?.numero - ultimaPosicionSelecionada?.numero === 1) ||
+      (ultimaPosicionSelecionada === null && cartaAcasa[0]?.numero === 1)
     ) {
       const newCasas = [...casas]
 
-      newCasas[posicion] = primeraCartaCliqueada
+      newCasas[posicion] = cartaAcasa[0]
 
       // Actualiza el estado con la nueva copia que contiene los datos modificados
       setCasas(newCasas)
 
-      if (primeraCartaCliqueada.casilla === 11) {
+      if (cartaAcasa[0].casilla === 11) {
         const newCartasVolteadas = [...cartasVolteadas]
         newCartasVolteadas.pop()
         setCartasVolteadas(newCartasVolteadas)
       } else {
         const newColumnas = [...columnas]
         // Elimina la carta de la primera columna
-        newColumnas[primeraCartaCliqueada.casilla].pop()
+        newColumnas[cartaAcasa[0].casilla].pop()
         // Actualiza el estado con la nueva disposición de las columnas
         setColumnas(newColumnas)
       }
-
-      setPrimeraCartaCliqueada([])
     } else {
       console.log('No coincide el color o el tipo')
     }

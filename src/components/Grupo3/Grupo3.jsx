@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { GameContext } from '../mesa/Mesa'
 import './styles.css'
@@ -10,47 +10,29 @@ export default function Grupo3() {
     setCartasVolteadas,
     columnas,
     setColumnas,
-    primeraCartaCliqueada,
-    setPrimeraCartaCliqueada,
     allowDrop,
     dragLeave
   } = useContext(GameContext)
 
   const drag = (e, carta) => {
+    console.log('el drag3', e.target.id)
     // Usamos slice para obtener todas las matrices desde la carta seleccionada hasta el final
-    const cartasDesdeSeleccionadaHastaElFinal = columnas[carta.casilla].slice(
-      carta.casilla
-    )
-
+    const listaCartasParaMover = columnas[carta.casilla].slice(carta.casilla)
+    console.log('DRAG3 Grupo3 --> listaCartasParaMover:', listaCartasParaMover)
     // Usamos flat para obtener una lista plana de todas las cartas
-    const todasLasCartas = cartasDesdeSeleccionadaHastaElFinal.flat()
-    console.log('todas las cartas', todasLasCartas)
-    /*
-    // Creamos una lista de imágenes
-    const listaDeImagenes = todasLasCartas.map((carta, index) => {
-      const imgElement = new Image()
-      imgElement.src = carta.img
-      imgElement.style.position = 'absolute'
-      imgElement.style.top = `${30 * index}px` // Espacio vertical de 30px entre imágenes
-      document.body.appendChild(imgElement) // Agregamos la imagen al DOM
-      return imgElement
-    })
+    const todasLasCartas = listaCartasParaMover.flat()
+    console.log('DRAG3 Grupo3  --->>> todas las cartas: ', todasLasCartas)
 
-    // Configuramos la lista de imágenes como dragImage
-    e.dataTransfer.setDragImage(listaDeImagenes[0], 0, 0)
-*/
     e.dataTransfer.setData('meju', JSON.stringify(todasLasCartas))
-    console.log('soy la data en drag3: ', carta)
-    setPrimeraCartaCliqueada(carta)
   }
-  // tengo q conseguir arrastrar varias cartas a la vez
+
   const drop = (e, casilla) => {
     e.preventDefault()
     console.log('CASILLA : ', casilla)
 
     e.target.classList.remove('hover')
     const cartasMover = JSON.parse(e.dataTransfer.getData('meju'))
-    console.log('la data del DROP', cartasMover)
+    console.log('DROP Grupo3 ---> cartasMover: ', cartasMover)
     const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnCasilla(
       casilla,
       columnas
@@ -68,20 +50,20 @@ export default function Grupo3() {
       })
       setColumnas(newColumnas)
     } else {
+      console.log('')
       if (
-        primeraCartaCliqueada.numero + 1 === ultimaCartaDeLaCasilla.numero &&
-        primeraCartaCliqueada.color !== ultimaCartaDeLaCasilla.color
+        cartasMover[0]?.numero + 1 === ultimaCartaDeLaCasilla.numero &&
+        cartasMover[0]?.color !== ultimaCartaDeLaCasilla.color
       ) {
         const newColumnas = [...columnas]
-        if (primeraCartaCliqueada.casilla === 11) {
+        if (cartasMover[0].casilla === 11) {
+          console.log('el movimiento viene desde el mazo grupo1')
           const newCartasVolteadas = [...cartasVolteadas]
           newCartasVolteadas.pop()
           setCartasVolteadas(newCartasVolteadas)
           ultimaCartaDeLaCasilla.flipped = false
-          primeraCartaCliqueada.casilla = ultimaCartaDeLaCasilla.casilla
-          newColumnas[ultimaCartaDeLaCasilla.casilla].push(
-            primeraCartaCliqueada
-          )
+          cartasMover[0].casilla = ultimaCartaDeLaCasilla.casilla
+          newColumnas[ultimaCartaDeLaCasilla.casilla].push(cartasMover[0])
           setColumnas(newColumnas)
         } else {
           cartasMover.forEach((item) => {
@@ -102,6 +84,9 @@ export default function Grupo3() {
       }
     }
   }
+  useEffect(() => {
+    console.log('soy las columnas useEffect', columnas)
+  }, [columnas])
 
   return (
     <div className="grupo3">
@@ -111,23 +96,26 @@ export default function Grupo3() {
           id={index}
           className="carta"
           data-casilla={index}
+          ///   onDragOver={(e) => allowDrop(e)}
+          /// onDragLeave={(e) => dragLeave(e)}
           onDrop={(e) => drop(e, index)}
-          onDragOver={(e) => allowDrop(e)}
-          onDragLeave={(e) => dragLeave(e)}
         >
           {columnaBase.map((carta, cartaIndex) => (
             <div
-              key={cartaIndex}
-              id="drag3"
+              key={carta.numero + '-' + carta.tipo + '-' + carta.color}
+              id={carta.numero + '-' + carta.tipo + '-' + carta.color}
               data-casilla={index}
               data-numero={carta.numero}
               data-color={carta.color}
               data-tipo={carta.tipo}
+              data-flipped={carta.flipped}
               className=" pos-absolute"
               style={{ marginTop: cartaIndex * 30 + 'px' }}
               draggable={true}
+              onDrop={(e) => drop(e, index)}
               onDragStart={(e) => drag(e, carta)}
-
+              onDragOver={(e) => allowDrop(e)}
+              onDragLeave={(e) => dragLeave(e)}
               // onDragStart={(e) => drag(e, carta)}
             >
               {cartaIndex === columnaBase.length - 1 ||
