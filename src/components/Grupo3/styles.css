@@ -9,7 +9,7 @@
 .columna {
   background-color: red;
 }
-.pos-absolute {
+.absolute {
   position: absolute;
   border-radius: 10px;
   height: 170;

@@ -36,7 +36,7 @@ export const crearBaraja = () => {
         color: colores[tipos[j]],
         tipo: tipos[j],
         img: `${i}_de_${tipos[j]}.png`,
-        casilla: 11,
+        columna: 11,
         flipped: true
       }
       barajaInicial.push(carta)
@@ -57,7 +57,7 @@ export const darCartas = () => {
     columnas.push([])
     for (let j = 0; j < i + 1; j++) {
       const primeraCarta = barajado[0]
-      primeraCarta.casilla = i
+      primeraCarta.columna = i
       barajado.shift()
       columnas[i].push(primeraCarta)
     }
@@ -74,19 +74,51 @@ export const darCartas = () => {
   return { barajado, columnas }
 }
 
-export const encontrarUltimaCartaEnCasilla = (casillaIndex, cartas) => {
-  // Verificamos si el índice de la casilla es válido
-  if (casillaIndex >= 0 && casillaIndex < cartas.length) {
-    // Obtenemos la casilla específica
-    const casilla = cartas[casillaIndex]
+export const encontrarUltimaCartaEnColumna = (columnaIndex, cartas) => {
+  // Verificamos si el índice de la columna es válido
+  if (columnaIndex >= 0 && columnaIndex < cartas.length) {
+    // Obtenemos la columna específica
+    const columna = cartas[columnaIndex]
 
-    // Verificamos si la casilla tiene al menos una carta
-    if (casilla.length > 0) {
-      // La última carta en la casilla es la que se encuentra en la posición final del array
-      return casilla[casilla.length - 1]
+    // Verificamos si la columna tiene al menos una carta
+    if (columna.length > 0) {
+      // La última carta en la columna es la que se encuentra en la posición final del array
+      return columna[columna.length - 1]
     }
   }
 
-  // Si la casilla no es válida o está vacía, podemos devolver un valor nulo o un mensaje de error, dependiendo de tu preferencia.
-  return null // o 'No hay cartas en esta casilla' u otro mensaje personalizado.
+  // Si la columna no es válida o está vacía, podemos devolver un valor nulo o un mensaje de error, dependiendo de tu preferencia.
+  return null // o 'No hay cartas en esta columna' u otro mensaje personalizado.
+}
+
+export function moverCartasAColumna(
+  columnas,
+  newColumnas,
+  cartasMover,
+  columna
+) {
+  cartasMover.forEach((item) => {
+    newColumnas[item.columna].pop()
+    item.columna = columna
+    newColumnas[columna].push(item)
+  })
+}
+
+export function voltearCarta(carta) {
+  carta.flipped = false
+}
+
+export function voltearUltimaCartaDeColumna(columnaInicial, columnas) {
+  if (columnaInicial >= 0 && columnaInicial < columnas.length) {
+    const columna = columnas[columnaInicial]
+
+    if (columna.length > 0) {
+      const ultimaCarta = columna[columna.length - 1]
+      ultimaCarta.flipped = false
+    } else {
+      console.log('La columna está vacía, no hay cartas para voltear.')
+    }
+  } else {
+    console.log('Número de columna no válido.')
+  }
 }
