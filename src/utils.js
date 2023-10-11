@@ -32,6 +32,7 @@ export const crearBaraja = () => {
   for (let i = 1; i <= 13; i++) {
     for (let j = 0; j < tipos.length; j++) {
       const carta = {
+        id: i + '-' + tipos[j] + '-' + colores[tipos[j]],
         numero: i,
         color: colores[tipos[j]],
         tipo: tipos[j],

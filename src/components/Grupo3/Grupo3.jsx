@@ -117,20 +117,21 @@ export default function Grupo3() {
               data-flipped={carta.flipped}
               className="absolute"
               style={{ marginTop: cartaIndex * 30 + 'px' }}
-              draggable={true}
-              onDrop={(e) => drop(e, index)}
-              onDragStart={(e) => drag(e, carta)}
-              onDragOver={(e) => allowDrop(e, carta)}
-              onDragLeave={(e) => dragLeave(e, carta)}
+
               // onDragStart={(e) => drag(e, carta)}
             >
               {carta.flipped === false ? (
                 // Si es la última carta, muestra la imagen correcta
                 <img
                   src={carta.img}
-                  alt={`Carta ${carta.numero} de ${carta.tipo}`}
-                  id={carta.numero + '-' + carta.tipo + '-' + carta.color}
+                  alt={carta.id}
+                  id={carta.id}
                   className="img absolute"
+                  draggable={true}
+                  onDrop={(e) => drop(e, index)}
+                  onDragStart={(e) => drag(e, carta)}
+                  onDragOver={(e) => allowDrop(e, carta)}
+                  onDragLeave={(e) => dragLeave(e, carta)}
                 />
               ) : (
                 // Si no es la última carta, muestra la imagen boca abajo
