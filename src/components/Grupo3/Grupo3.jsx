@@ -127,14 +127,19 @@ export default function Grupo3() {
               {carta.flipped === false ? (
                 // Si es la última carta, muestra la imagen correcta
                 <img
-                  id={carta.numero + '-' + carta.tipo + '-' + carta.color}
                   src={carta.img}
                   alt={`Carta ${carta.numero} de ${carta.tipo}`}
-                  className="feo"
+                  id={carta.numero + '-' + carta.tipo + '-' + carta.color}
+                  className="img absolute"
                 />
               ) : (
                 // Si no es la última carta, muestra la imagen boca abajo
-                <img src="back.png" alt="Carta boca abajo" />
+                <img
+                  src="back.png"
+                  alt="Carta boca abajo"
+                  id={carta.numero + '-' + carta.tipo + '-' + carta.color}
+                  className="img"
+                />
               )}
             </div>
           ))}

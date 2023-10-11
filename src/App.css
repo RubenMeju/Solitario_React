@@ -15,10 +15,14 @@
   justify-content: space-between;
 }
 
-img {
+.img {
   width: 150px;
 }
-
+.absolute {
+  position: absolute;
+  border-radius: 10px;
+  height: 170;
+}
 .carta {
   width: 150px;
   height: 200px;

@@ -52,7 +52,7 @@ export default function Grupo1() {
               data-flipped={carta.flipped}
               onClick={() => volterCarta(carta)}
             >
-              <img src="back.png" alt="carta" className="pos-absolute" />
+              <img src="back.png" alt="carta" className="absolute img" />
             </div>
           ))}
       </section>
@@ -72,7 +72,7 @@ export default function Grupo1() {
             <img
               src={carta.img}
               alt="carta-volteada"
-              className="pos-absolute"
+              className="absolute img"
               style={{
                 border:
                   primeraCartaCliqueada === carta ? '2px solid red' : 'none'

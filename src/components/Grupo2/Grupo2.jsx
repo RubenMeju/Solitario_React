@@ -82,7 +82,7 @@ export default function Grupo2() {
           onDragOver={(e) => allowDrop(e)}
           onDragLeave={(e) => dragLeave(e)}
         >
-          <img src={carta.img} alt="carta" className="pos-absolute" />
+          <img src={carta.img} alt="carta" className="absolute img" />
         </div>
       ))}
     </div>
