@@ -19,42 +19,67 @@ export default function Grupo3() {
     dragLeave
   } = useContext(GameContext)
 
-  const drag = (e, carta) => {
-    console.log('miercoles :', e.target.id)
-    e.dataTransfer.effectAllowed = 'all'
-    // e.dataTransfer.dropEffect = 'move'
-    // Usamos slice para obtener todas las matrices desde la carta seleccionada hasta el final
-    const listaCartasParaMover = columnas[carta.columna].slice(carta.columna)
-    // Usamos flat para obtener una lista plana de todas las cartas
-    console.log('DRAG3 Grupo3  --->>> todas las cartas: ', listaCartasParaMover)
-    const data = JSON.stringify(listaCartasParaMover)
-    e.dataTransfer.setData('meju', data)
-    e.dataTransfer.setData('meju1', JSON.stringify(carta.columna))
+  function buscarCartaPorId(idCarta, columnas) {
+    for (const lista of columnas) {
+      for (const carta of lista) {
+        if (carta.id === idCarta) {
+          return carta // Devuelve la carta si se encuentra
+        }
+      }
+    }
+    return null // Retorna null si el ID no se encuentra
   }
 
-  const drop = (e, columna) => {
+  const drag = (e, carta) => {
+    console.log('drag3 cartaID :', e.target.id)
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.dropEffect = 'move'
+
+    e.dataTransfer.setData('meju', JSON.stringify(carta))
+  }
+
+  const drop = (e, ultimaCarta) => {
     e.preventDefault()
-    console.log('Columna de destino : ', columna)
     e.dataTransfer.effectAllowed = 'all'
     e.dataTransfer.dropEffect = 'move'
     e.target.classList.remove('hover')
 
-    const data = e.dataTransfer.getData('meju')
+    const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
+    console.log('Drog3 primeraCarta', primeraCarta.color)
+    console.log('Drog3 ultimaCarta : ', ultimaCarta.color)
 
-    const cartasMover = JSON.parse(data)
+    if (
+      primeraCarta.numero + 1 === ultimaCarta.numero &&
+      primeraCarta.color !== ultimaCarta.color
+    ) {
+      console.log('la carta se puede mover')
+      // si la carta viene del grupo3
+      const newColumnas = [...columnas]
+      // Elimina la carta de la columna selecionada
+      newColumnas[primeraCarta.columna].pop()
+      voltearUltimaCartaDeColumna(primeraCarta.columna, columnas)
+      primeraCarta.columna = ultimaCarta.columna
+      newColumnas[ultimaCarta.columna].push(primeraCarta)
+      // Actualiza el estado con la nueva disposición de las columnas
+      setColumnas(newColumnas)
+    } else {
+      console.log('Movimiento no permitido!!!')
+    }
+    /*
+    const cartasMover = [JSON.parse(data)]
     const columnaInicial = JSON.parse(e.dataTransfer.getData('meju1'))
-    console.log('columna Inicial : ', columnaInicial)
-    console.log('DROP Grupo3 ---> cartasMover: ', cartasMover)
+    console.log('drog columna Inicial : ', columnaInicial)
+    console.log('DROP Grupo3 --->LLEga del drag cartasMover: ', cartasMover)
     const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnColumna(
       columna,
       columnas
     )
-    console.log('ultima carta de la columna', ultimaCartaDeLaCasilla)
+    console.log('drop3: ultima carta de la columna: ', ultimaCartaDeLaCasilla)
 
     const newColumnas = [...columnas]
 
     if (ultimaCartaDeLaCasilla === null) {
-      console.log('La columna está vacía, agregamos la carta a la columna')
+      console.log('drop La columna está vacía, agregamos la carta a la columna')
       moverCartasAColumna(columnas, newColumnas, cartasMover, columna)
     } else {
       if (
@@ -74,6 +99,8 @@ export default function Grupo3() {
             ultimaCartaDeLaCasilla.columna
           )
         } else {
+          console.log('drog el movimiento viene desde las columnas grupo3')
+
           moverCartasAColumna(
             columnas,
             newColumnas,
@@ -82,17 +109,15 @@ export default function Grupo3() {
           )
           voltearUltimaCartaDeColumna(columnaInicial, columnas)
         }
-      } else {
-        console.log('NO SE PUEDE MOVER A ESTA COLUMNA')
       }
     }
     // Actualiza las columnas con los nuevos datos.
     setColumnas(newColumnas)
-    e.dataTransfer.clearData()
+    */
   }
 
   useEffect(() => {
-    console.log('1111111111soy las columnas useEffect', columnas)
+    console.log(' las columnas useEffect', columnas)
   }, [columnas])
 
   return (
@@ -103,21 +128,25 @@ export default function Grupo3() {
           id={index}
           className="carta"
           data-columna={index}
-          onDragOver={(e) => allowDrop(e)}
-          onDragLeave={(e) => dragLeave(e)}
-          onDrop={(e) => drop(e, index)}
+          // onDragOver={(e) => allowDrop(e)}
+          //  onDragLeave={(e) => dragLeave(e)}
+          //  onDrop={(e) => drop(e, index)}
         >
           {columnaBase.map((carta, cartaIndex) => (
             <div
               key={carta.numero + '-' + carta.tipo + '-' + carta.color}
+              className=" absolute"
+              style={{ marginTop: cartaIndex * 60 + 'px' }}
               data-columna={index}
               data-numero={carta.numero}
               data-color={carta.color}
               data-tipo={carta.tipo}
               data-flipped={carta.flipped}
-              className="absolute"
-              style={{ marginTop: cartaIndex * 30 + 'px' }}
-
+              draggable={true}
+              onDragStart={(e) => drag(e, carta)}
+              onDragOver={(e) => allowDrop(e)}
+              onDragLeave={(e) => dragLeave(e)}
+              onDrop={(e) => drop(e, carta)}
               // onDragStart={(e) => drag(e, carta)}
             >
               {carta.flipped === false ? (
@@ -125,21 +154,16 @@ export default function Grupo3() {
                 <img
                   src={carta.img}
                   alt={carta.id}
+                  className="img"
                   id={carta.id}
-                  className="img absolute"
-                  draggable={true}
-                  onDrop={(e) => drop(e, index)}
-                  onDragStart={(e) => drag(e, carta)}
-                  onDragOver={(e) => allowDrop(e, carta)}
-                  onDragLeave={(e) => dragLeave(e, carta)}
                 />
               ) : (
                 // Si no es la última carta, muestra la imagen boca abajo
                 <img
                   src="back.png"
                   alt="Carta boca abajo"
-                  id={carta.numero + '-' + carta.tipo + '-' + carta.color}
                   className="img"
+                  id={carta.id}
                 />
               )}
             </div>

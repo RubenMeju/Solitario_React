@@ -14,12 +14,43 @@ export default function Grupo2() {
   } = useContext(GameContext)
   const [casas, setCasas] = useState([{}, {}, {}, {}])
 
-  const drop = (e, columna) => {
+  const drop = (e, ultimaCarta, posCasa) => {
     e.preventDefault()
     e.target.classList.remove('hover')
-    const cartaAcasa = JSON.parse(e.dataTransfer.getData('meju'))
+    const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
+    console.log('ultima carta:', Object.keys(ultimaCarta).length)
+    if (
+      (primeraCarta?.color === ultimaCarta?.color &&
+        primeraCarta?.tipo === ultimaCarta?.tipo &&
+        primeraCarta?.numero - ultimaCarta?.numero === 1) ||
+      (Object.keys(ultimaCarta).length === 0 && primeraCarta?.numero === 1)
+    ) {
+      const newCasas = [...casas]
+
+      newCasas[posCasa] = primeraCarta
+      setCasas(newCasas)
+      // si la carta viene del grupo1
+      if (primeraCarta.columna === 11) {
+        console.log('LA carta viene del grupo1')
+
+        const newCartasVolteadas = [...cartasVolteadas]
+        newCartasVolteadas.pop()
+        setCartasVolteadas(newCartasVolteadas)
+      } else {
+        // si la carta viene del grupo3
+        const newColumnas = [...columnas]
+        // Elimina la carta de la primera columna
+        newColumnas[primeraCarta.columna].pop()
+        voltearUltimaCartaDeColumna(primeraCarta.columna, columnas)
+        // Actualiza el estado con la nueva disposición de las columnas
+        setColumnas(newColumnas)
+      }
+    }
+
+    /*
+    const primeraCarta = [JSON.parse(e.dataTransfer.getData('meju'))]
     const columnaInicial = JSON.parse(e.dataTransfer.getData('meju1'))
-    console.log('DROP2 Grupo2 ---> cartaAcasa: ', cartaAcasa)
+    console.log('DROP2 Grupo2 ---> primeraCarta: ', primeraCarta)
 
     let ultimaPosicionSelecionada = null
     // le quito el primer digito a columna
@@ -34,26 +65,26 @@ export default function Grupo2() {
 
     // intento hacer la condicion color tipo numero mayo q
     if (
-      (cartaAcasa[0]?.color === ultimaPosicionSelecionada?.color &&
-        cartaAcasa[0]?.tipo === ultimaPosicionSelecionada?.tipo &&
-        cartaAcasa[0]?.numero - ultimaPosicionSelecionada?.numero === 1) ||
-      (ultimaPosicionSelecionada === null && cartaAcasa[0]?.numero === 1)
+      (primeraCarta[0]?.color === ultimaPosicionSelecionada?.color &&
+        primeraCarta[0]?.tipo === ultimaPosicionSelecionada?.tipo &&
+        primeraCarta[0]?.numero - ultimaPosicionSelecionada?.numero === 1) ||
+      (ultimaPosicionSelecionada === null && primeraCarta[0]?.numero === 1)
     ) {
       const newCasas = [...casas]
 
-      newCasas[posicion] = cartaAcasa[0]
+      newCasas[posicion] = primeraCarta[0]
 
       // Actualiza el estado con la nueva copia que contiene los datos modificados
       setCasas(newCasas)
 
-      if (cartaAcasa[0].columna === 11) {
+      if (primeraCarta[0].columna === 11) {
         const newCartasVolteadas = [...cartasVolteadas]
         newCartasVolteadas.pop()
         setCartasVolteadas(newCartasVolteadas)
       } else {
         const newColumnas = [...columnas]
         // Elimina la carta de la primera columna
-        newColumnas[cartaAcasa[0].columna].pop()
+        newColumnas[primeraCarta[0].columna].pop()
         voltearUltimaCartaDeColumna(columnaInicial, columnas)
         // Actualiza el estado con la nueva disposición de las columnas
         setColumnas(newColumnas)
@@ -61,11 +92,8 @@ export default function Grupo2() {
     } else {
       console.log('No coincide el color o el tipo')
     }
+    */
   }
-
-  useEffect(() => {
-    console.log('Se vuelve a cargar el componente:', columnas)
-  }, [columnas])
 
   return (
     <div className="grupo2">
@@ -78,7 +106,7 @@ export default function Grupo2() {
           data-color={carta.color}
           data-tipo={carta.tipo}
           data-flipped={carta.flipped}
-          onDrop={(e) => drop(e, `2${index}`)}
+          onDrop={(e) => drop(e, carta, index)}
           onDragOver={(e) => allowDrop(e)}
           onDragLeave={(e) => dragLeave(e)}
         >

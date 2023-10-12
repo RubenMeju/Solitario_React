@@ -8,8 +8,7 @@ export default function Grupo1() {
     setBarajado,
     cartasVolteadas,
     setCartasVolteadas,
-    allowDrop,
-    drop
+    allowDrop
   } = useContext(GameContext)
   const [primeraCartaCliqueada, setPrimeraCartaCliqueada] = useState(null)
 
@@ -31,9 +30,9 @@ export default function Grupo1() {
     }
   }
   const drag = (e, carta) => {
-    const cartaa = [carta]
-    e.dataTransfer.setData('meju', JSON.stringify(cartaa))
-    setPrimeraCartaCliqueada([carta])
+    console.log('drag1 carta: ', carta)
+    e.dataTransfer.setData('meju', JSON.stringify(carta))
+    setPrimeraCartaCliqueada(carta)
   }
 
   return (
@@ -60,7 +59,7 @@ export default function Grupo1() {
         {cartasVolteadas.map((carta, index) => (
           <div
             id="div1"
-            onDrop={(e) => drop(e)}
+            //   onDrop={(e) => drop(e)}
             onDragOver={(e) => allowDrop(e)}
             key={index}
             data-casilla={11}
