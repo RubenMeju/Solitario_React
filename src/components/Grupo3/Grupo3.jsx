@@ -40,13 +40,15 @@ export default function Grupo3() {
 
   const drop = (e, ultimaCarta) => {
     e.preventDefault()
+    e.stopPropagation()
+
     e.dataTransfer.effectAllowed = 'all'
     e.dataTransfer.dropEffect = 'move'
     e.target.classList.remove('hover')
 
     const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
-    console.log('Drog3 primeraCarta', primeraCarta.color)
-    console.log('Drog3 ultimaCarta : ', ultimaCarta.color)
+    console.log('Drog3 primeraCarta', primeraCarta)
+    console.log('Drog3 ultimaCarta : ', ultimaCarta)
 
     if (
       primeraCarta.numero + 1 === ultimaCarta.numero &&
@@ -65,6 +67,7 @@ export default function Grupo3() {
     } else {
       console.log('Movimiento no permitido!!!')
     }
+
     /*
     const cartasMover = [JSON.parse(data)]
     const columnaInicial = JSON.parse(e.dataTransfer.getData('meju1'))
@@ -116,6 +119,29 @@ export default function Grupo3() {
     */
   }
 
+  const dropColumnaVacia = (e, columna) => {
+    e.preventDefault()
+    e.stopPropagation()
+    e.dataTransfer.effectAllowed = 'all'
+    e.dataTransfer.dropEffect = 'move'
+    e.target.classList.remove('hover')
+
+    const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
+    console.log('dropColumnaVacia primeraCarta', primeraCarta)
+    console.log('dropColumnaVacia columna : ', columna)
+
+    console.log('La columna esta vacia')
+    // si la carta viene del grupo3
+    const newColumnas = [...columnas]
+    // Elimina la carta de la columna selecionada
+    newColumnas[primeraCarta.columna].pop()
+    voltearUltimaCartaDeColumna(primeraCarta.columna, columnas)
+    primeraCarta.columna = columna
+    newColumnas[columna].push(primeraCarta)
+    // Actualiza el estado con la nueva disposición de las columnas
+    setColumnas(newColumnas)
+  }
+
   useEffect(() => {
     console.log(' las columnas useEffect', columnas)
   }, [columnas])
@@ -128,9 +154,9 @@ export default function Grupo3() {
           id={index}
           className="carta"
           data-columna={index}
-          // onDragOver={(e) => allowDrop(e)}
-          //  onDragLeave={(e) => dragLeave(e)}
-          //  onDrop={(e) => drop(e, index)}
+          onDragOver={(e) => allowDrop(e)}
+          onDragLeave={(e) => dragLeave(e)}
+          onDrop={(e) => dropColumnaVacia(e, index)}
         >
           {columnaBase.map((carta, cartaIndex) => (
             <div
