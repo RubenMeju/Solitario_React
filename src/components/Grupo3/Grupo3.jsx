@@ -2,12 +2,7 @@ import { useContext, useEffect } from 'react'
 
 import { GameContext } from '../mesa/Mesa'
 import './styles.css'
-import {
-  encontrarUltimaCartaEnColumna,
-  moverCartasAColumna,
-  voltearCarta,
-  voltearUltimaCartaDeColumna
-} from '../../utils'
+import { voltearUltimaCartaDeColumna } from '../../utils'
 
 export default function Grupo3() {
   const {
@@ -44,15 +39,24 @@ export default function Grupo3() {
     return elementosEnColumna
   }
 
+  function encontrarUltimaCartaDeColumna(columnas, numeroColumna) {
+    if (numeroColumna >= 0 && numeroColumna < columnas.length) {
+      const columna = columnas[numeroColumna]
+      if (columna.length > 0) {
+        const ultimaCarta = columna[columna.length - 1]
+        return ultimaCarta
+      }
+    }
+    // Si la columna está vacía o no existe, puedes manejarlo como desees.
+    return null // o cualquier otro valor que indique que no se encontró una última carta.
+  }
+
   const drag = (e, carta) => {
     console.log('drag3 cartaID :', e.target.id)
     e.dataTransfer.effectAllowed = 'move'
     e.dataTransfer.dropEffect = 'move'
 
     e.dataTransfer.setData('meju', JSON.stringify(carta))
-
-    const meju = encontrarCartasEnColumna(columnas, carta)
-    console.log('mejuuuus', meju)
   }
 
   const drop = (e, ultimaCarta) => {
@@ -64,7 +68,7 @@ export default function Grupo3() {
     e.target.classList.remove('hover')
 
     const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
-    console.log('Drog3 primeraCarta', primeraCarta)
+    console.log('Drog3 primeraCarta', primeraCarta.columna)
     console.log('Drog3 ultimaCarta : ', ultimaCarta)
 
     // La carta viene del grupo1
@@ -88,69 +92,31 @@ export default function Grupo3() {
       primeraCarta.numero + 1 === ultimaCarta.numero &&
       primeraCarta.color !== ultimaCarta.color
     ) {
-      console.log('la carta se puede mover')
-      // si la carta viene del grupo3
+      const listaDeCartas = encontrarCartasEnColumna(columnas, primeraCarta)
+      console.log('Drop3 ListaDeCartas', listaDeCartas)
+
+      // si las cartas vienen del grupo3
       const newColumnas = [...columnas]
-      // Elimina la carta de la columna selecionada
-      newColumnas[primeraCarta.columna].pop()
-      voltearUltimaCartaDeColumna(primeraCarta.columna, columnas)
-      primeraCarta.columna = ultimaCarta.columna
-      newColumnas[ultimaCarta.columna].push(primeraCarta)
+
+      for (let i = 0; i < listaDeCartas.length; i++) {
+        const carta = listaDeCartas[i]
+        // Realiza operaciones con la carta, por ejemplo, imprimir su ID.
+        console.log('ID de la carta:', carta.id)
+        // Elimina la carta de la columna seleccionada
+
+        newColumnas[carta.columna].pop()
+        voltearUltimaCartaDeColumna(primeraCarta.columna, columnas)
+
+        carta.columna = ultimaCarta.columna
+        newColumnas[ultimaCarta.columna].push(carta)
+      }
+
       // Actualiza el estado con la nueva disposición de las columnas
       setColumnas(newColumnas)
+      console.log('la carta se puede mover')
     } else {
       console.log('Movimiento no permitido!!!')
     }
-
-    /*
-    const cartasMover = [JSON.parse(data)]
-    const columnaInicial = JSON.parse(e.dataTransfer.getData('meju1'))
-    console.log('drog columna Inicial : ', columnaInicial)
-    console.log('DROP Grupo3 --->LLEga del drag cartasMover: ', cartasMover)
-    const ultimaCartaDeLaCasilla = encontrarUltimaCartaEnColumna(
-      columna,
-      columnas
-    )
-    console.log('drop3: ultima carta de la columna: ', ultimaCartaDeLaCasilla)
-
-    const newColumnas = [...columnas]
-
-    if (ultimaCartaDeLaCasilla === null) {
-      console.log('drop La columna está vacía, agregamos la carta a la columna')
-      moverCartasAColumna(columnas, newColumnas, cartasMover, columna)
-    } else {
-      if (
-        cartasMover[0]?.numero + 1 === ultimaCartaDeLaCasilla.numero &&
-        cartasMover[0]?.color !== ultimaCartaDeLaCasilla.color
-      ) {
-        if (cartasMover[0].columna === 11) {
-          console.log('el movimiento viene desde el mazo grupo1')
-          const newCartasVolteadas = [...cartasVolteadas]
-          newCartasVolteadas.pop()
-          setCartasVolteadas(newCartasVolteadas)
-          voltearCarta(ultimaCartaDeLaCasilla)
-          moverCartasAColumna(
-            columnas,
-            newColumnas,
-            cartasMover,
-            ultimaCartaDeLaCasilla.columna
-          )
-        } else {
-          console.log('drog el movimiento viene desde las columnas grupo3')
-
-          moverCartasAColumna(
-            columnas,
-            newColumnas,
-            cartasMover,
-            ultimaCartaDeLaCasilla.columna
-          )
-          voltearUltimaCartaDeColumna(columnaInicial, columnas)
-        }
-      }
-    }
-    // Actualiza las columnas con los nuevos datos.
-    setColumnas(newColumnas)
-    */
   }
 
   const dropColumnaVacia = (e, columna) => {
@@ -165,13 +131,24 @@ export default function Grupo3() {
     console.log('dropColumnaVacia columna : ', columna)
 
     console.log('La columna esta vacia')
-    // si la carta viene del grupo3
+    const listaDeCartas = encontrarCartasEnColumna(columnas, primeraCarta)
+    console.log('mejuuuus', listaDeCartas)
+
+    // si las cartas vienen del grupo3
     const newColumnas = [...columnas]
-    // Elimina la carta de la columna selecionada
-    newColumnas[primeraCarta.columna].pop()
-    voltearUltimaCartaDeColumna(primeraCarta.columna, columnas)
-    primeraCarta.columna = columna
-    newColumnas[columna].push(primeraCarta)
+
+    for (let i = 0; i < listaDeCartas.length; i++) {
+      const carta = listaDeCartas[i]
+      // Realiza operaciones con la carta, por ejemplo, imprimir su ID.
+      console.log('ID de la carta:', carta.id)
+      // Elimina la carta de la columna seleccionada
+      newColumnas[carta.columna].pop()
+      voltearUltimaCartaDeColumna(primeraCarta.columna, columnas)
+
+      carta.columna = columna
+      newColumnas[columna].push(carta)
+    }
+
     // Actualiza el estado con la nueva disposición de las columnas
     setColumnas(newColumnas)
   }
