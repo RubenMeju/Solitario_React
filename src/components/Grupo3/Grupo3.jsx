@@ -19,12 +19,40 @@ export default function Grupo3() {
     dragLeave
   } = useContext(GameContext)
 
+  function encontrarCartasEnColumna(arrayDeDatos, cartaSeleccionada) {
+    const elementosEnColumna = []
+    let found = false
+
+    for (let i = 0; i < arrayDeDatos.length; i++) {
+      const subArray = arrayDeDatos[i]
+
+      for (let j = 0; j < subArray.length; j++) {
+        if (subArray[j].id === cartaSeleccionada.id) {
+          found = true
+        }
+
+        if (found) {
+          elementosEnColumna.push(subArray[j])
+        }
+      }
+
+      if (found) {
+        break // Deja de buscar una vez que encuentres la carta seleccionada.
+      }
+    }
+
+    return elementosEnColumna
+  }
+
   const drag = (e, carta) => {
     console.log('drag3 cartaID :', e.target.id)
     e.dataTransfer.effectAllowed = 'move'
     e.dataTransfer.dropEffect = 'move'
 
     e.dataTransfer.setData('meju', JSON.stringify(carta))
+
+    const meju = encontrarCartasEnColumna(columnas, carta)
+    console.log('mejuuuus', meju)
   }
 
   const drop = (e, ultimaCarta) => {
