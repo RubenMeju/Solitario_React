@@ -19,17 +19,6 @@ export default function Grupo3() {
     dragLeave
   } = useContext(GameContext)
 
-  function buscarCartaPorId(idCarta, columnas) {
-    for (const lista of columnas) {
-      for (const carta of lista) {
-        if (carta.id === idCarta) {
-          return carta // Devuelve la carta si se encuentra
-        }
-      }
-    }
-    return null // Retorna null si el ID no se encuentra
-  }
-
   const drag = (e, carta) => {
     console.log('drag3 cartaID :', e.target.id)
     e.dataTransfer.effectAllowed = 'move'
@@ -49,6 +38,23 @@ export default function Grupo3() {
     const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
     console.log('Drog3 primeraCarta', primeraCarta)
     console.log('Drog3 ultimaCarta : ', ultimaCarta)
+
+    // La carta viene del grupo1
+    if (primeraCarta.columna === 11) {
+      console.log('el movimiento viene desde el mazo grupo1')
+      // elimino la carta del grupo1
+      const newCartasVolteadas = [...cartasVolteadas]
+      newCartasVolteadas.pop()
+      setCartasVolteadas(newCartasVolteadas)
+      // añadir la carta al grupo3  (esto se puede refactorizar)
+      const newColumnas = [...columnas]
+      // Elimina la carta de la columna selecionada
+      primeraCarta.flipped = false
+      primeraCarta.columna = ultimaCarta.columna
+      newColumnas[ultimaCarta.columna].push(primeraCarta)
+      // Actualiza el estado con la nueva disposición de las columnas
+      setColumnas(newColumnas)
+    }
 
     if (
       primeraCarta.numero + 1 === ultimaCarta.numero &&
