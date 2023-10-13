@@ -45,7 +45,7 @@ export const darCartas = () => {
     }
   }
 
-  // set 'flipped' en 'false' para la última carta de cada columna
+  // volteo la última carta de cada columna
   columnas.forEach((columna) => {
     if (columna.length > 0) {
       columna[columna.length - 1].flipped = false

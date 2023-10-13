@@ -12,10 +12,7 @@ export default function Mesa() {
   const [columnas, setColumnas] = useState([])
   const [cartasVolteadas, setCartasVolteadas] = useState([])
 
-  const [ultimaCartaCliqueada, setUltimaCartaCliqueada] = useState(null)
-  // console.log('primeraCartaCliqueada: ', primeraCartaCliqueada)
-
-  // funcion para agregar hover
+  // funciones para agregar hover
   const allowDrop = (e) => {
     e.preventDefault()
     e.target.classList.add('hover')
@@ -46,15 +43,12 @@ export default function Mesa() {
       </button>
       <GameContext.Provider
         value={{
-          isPlay,
           barajado,
           setBarajado,
           columnas,
           setColumnas,
           cartasVolteadas,
           setCartasVolteadas,
-          ultimaCartaCliqueada,
-          setUltimaCartaCliqueada,
           allowDrop,
           dragLeave
         }}
