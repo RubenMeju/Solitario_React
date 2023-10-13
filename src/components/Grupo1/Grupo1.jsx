@@ -37,7 +37,7 @@ export default function Grupo1() {
 
   return (
     <div className="container">
-      <section id="sacarCarta" className="section1" onClick={resetearCartas}>
+      <section id="sacarCarta" className="carta" onClick={resetearCartas}>
         {barajado
           .slice()
           .reverse()
@@ -58,8 +58,6 @@ export default function Grupo1() {
       <section className="section2">
         {cartasVolteadas.map((carta, index) => (
           <div
-            id="div1"
-            //   onDrop={(e) => drop(e)}
             onDragOver={(e) => allowDrop(e)}
             key={index}
             data-casilla={11}
@@ -72,13 +70,8 @@ export default function Grupo1() {
               src={carta.img}
               alt="carta-volteada"
               className="absolute img"
-              style={{
-                border:
-                  primeraCartaCliqueada === carta ? '2px solid red' : 'none'
-              }}
               draggable={true}
               onDragStart={(e) => drag(e, carta)}
-              id="drag1"
             />
           </div>
         ))}
