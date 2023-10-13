@@ -1,22 +1,3 @@
-/* export const crearCartaHTML = (carta, handleClickCarta) => {
-  const cartaHTML = document.createElement('div')
-  const imagen = document.createElement('img')
-  if (carta.flipped) {
-    imagen.src = 'back.png'
-  } else {
-    imagen.src = carta.img
-  }
-  cartaHTML.dataset.numero = carta.numero
-  cartaHTML.dataset.color = carta.color
-  cartaHTML.dataset.tipo = carta.tipo
-
-  cartaHTML.classList.add('pos-absolute')
-  cartaHTML.onclick = () => handleClickCarta(cartaHTML)
-
-  cartaHTML.appendChild(imagen)
-  return cartaHTML
-}
-*/
 const barajaInicial = []
 let barajado = []
 const columnas = []
@@ -71,42 +52,7 @@ export const darCartas = () => {
     }
   })
 
-  console.log('Dar cartas: ', columnas)
   return { barajado, columnas }
-}
-
-export const encontrarUltimaCartaEnColumna = (columnaIndex, cartas) => {
-  // Verificamos si el índice de la columna es válido
-  if (columnaIndex >= 0 && columnaIndex < cartas.length) {
-    // Obtenemos la columna específica
-    const columna = cartas[columnaIndex]
-
-    // Verificamos si la columna tiene al menos una carta
-    if (columna.length > 0) {
-      // La última carta en la columna es la que se encuentra en la posición final del array
-      return columna[columna.length - 1]
-    }
-  }
-
-  // Si la columna no es válida o está vacía, podemos devolver un valor nulo o un mensaje de error, dependiendo de tu preferencia.
-  return null // o 'No hay cartas en esta columna' u otro mensaje personalizado.
-}
-
-export function moverCartasAColumna(
-  columnas,
-  newColumnas,
-  cartasMover,
-  columna
-) {
-  cartasMover.forEach((item) => {
-    newColumnas[item.columna].pop()
-    item.columna = columna
-    newColumnas[columna].push(item)
-  })
-}
-
-export function voltearCarta(carta) {
-  carta.flipped = false
 }
 
 export function voltearUltimaCartaDeColumna(columnaInicial, columnas) {
@@ -122,4 +68,29 @@ export function voltearUltimaCartaDeColumna(columnaInicial, columnas) {
   } else {
     console.log('Número de columna no válido.')
   }
+}
+
+export function encontrarCartasEnColumna(arrayDeDatos, cartaSeleccionada) {
+  const elementosEnColumna = []
+  let found = false
+
+  for (let i = 0; i < arrayDeDatos.length; i++) {
+    const subArray = arrayDeDatos[i]
+
+    for (let j = 0; j < subArray.length; j++) {
+      if (subArray[j].id === cartaSeleccionada.id) {
+        found = true
+      }
+
+      if (found) {
+        elementosEnColumna.push(subArray[j])
+      }
+    }
+
+    if (found) {
+      break
+    }
+  }
+
+  return elementosEnColumna
 }
