@@ -31,26 +31,26 @@ export default function Grupo3() {
     e.target.classList.remove('hover')
 
     const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
-    // La carta viene del grupo1
-    if (primeraCarta.columna === 11) {
-      // elimino la carta del grupo1
-      const newCartasVolteadas = [...cartasVolteadas]
-      newCartasVolteadas.pop()
-      setCartasVolteadas(newCartasVolteadas)
-      // añadir la carta al grupo3  (esto se puede refactorizar)
-      const newColumnas = [...columnas]
-      // Elimina la carta de la columna selecionada
-      primeraCarta.flipped = false
-      primeraCarta.columna = ultimaCarta.columna
-      newColumnas[ultimaCarta.columna].push(primeraCarta)
-      // Actualiza el estado con la nueva disposición de las columnas
-      setColumnas(newColumnas)
-    }
 
     if (
       primeraCarta.numero + 1 === ultimaCarta.numero &&
       primeraCarta.color !== ultimaCarta.color
     ) {
+      // La carta viene del grupo1
+      if (primeraCarta.columna === 11) {
+        // elimino la carta del grupo1
+        const newCartasVolteadas = [...cartasVolteadas]
+        newCartasVolteadas.pop()
+        setCartasVolteadas(newCartasVolteadas)
+        // añadir la carta al grupo3  (esto se puede refactorizar)
+        const newColumnas = [...columnas]
+        // Elimina la carta de la columna selecionada
+        primeraCarta.flipped = false
+        primeraCarta.columna = ultimaCarta.columna
+        newColumnas[ultimaCarta.columna].push(primeraCarta)
+        // Actualiza el estado con la nueva disposición de las columnas
+        setColumnas(newColumnas)
+      }
       const listaDeCartas = encontrarCartasEnColumna(columnas, primeraCarta)
 
       // si las cartas vienen del grupo3
