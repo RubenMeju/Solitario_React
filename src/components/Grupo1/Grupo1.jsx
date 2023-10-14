@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { GameContext } from '../mesa/Mesa'
 import './styles.css'
+import sound1 from '../../assets/carta.mp3'
 
 export default function Grupo1() {
   const {
@@ -12,6 +13,9 @@ export default function Grupo1() {
   } = useContext(GameContext)
 
   const volterCarta = (carta) => {
+    const music = document.querySelector('#music')
+    music.volume = 0.2
+    music.play()
     // añado la carta cliqueada a cartas volteadas
     setCartasVolteadas((prevCartasVolteadas) => [...prevCartasVolteadas, carta])
     // quito la carta cliqueada a barajado
@@ -34,6 +38,7 @@ export default function Grupo1() {
 
   return (
     <div className="container">
+      <audio id="music" src={sound1}></audio>
       <section id="sacarCarta" className="carta" onClick={resetearCartas}>
         {barajado
           .slice()

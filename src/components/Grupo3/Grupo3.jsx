@@ -6,6 +6,7 @@ import {
   encontrarCartasEnColumna,
   voltearUltimaCartaDeColumna
 } from '../../utils'
+import sound2 from '../../assets/fijar.mp3'
 
 export default function Grupo3() {
   const {
@@ -36,6 +37,9 @@ export default function Grupo3() {
       primeraCarta.numero + 1 === ultimaCarta.numero &&
       primeraCarta.color !== ultimaCarta.color
     ) {
+      const sound2 = document.querySelector('#sound2')
+      sound2.volume = 0.5
+      sound2.play()
       // La carta viene del grupo1
       if (primeraCarta.columna === 11) {
         // elimino la carta del grupo1
@@ -80,7 +84,9 @@ export default function Grupo3() {
     e.target.classList.remove('hover')
 
     const primeraCarta = JSON.parse(e.dataTransfer.getData('meju'))
-
+    const sound2 = document.querySelector('#sound2')
+    sound2.volume = 0.5
+    sound2.play()
     // La carta viene del grupo1
     if (primeraCarta.columna === 11) {
       // elimino la carta del grupo1
@@ -117,6 +123,7 @@ export default function Grupo3() {
 
   return (
     <div className="grupo3">
+      <audio id="sound2" src={sound2}></audio>
       {columnas.map((columnaBase, index) => (
         <div
           key={index}

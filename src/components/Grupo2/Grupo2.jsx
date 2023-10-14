@@ -1,7 +1,8 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import './styles.css'
 import { GameContext } from '../mesa/Mesa'
 import { voltearUltimaCartaDeColumna } from '../../utils'
+import correcto from '../../assets/correct.mp3'
 
 export default function Grupo2() {
   const {
@@ -26,6 +27,9 @@ export default function Grupo2() {
         primeraCarta?.numero - ultimaCarta?.numero === 1) ||
       (Object.keys(ultimaCarta).length === 0 && primeraCarta?.numero === 1)
     ) {
+      const correcto = document.querySelector('#correcto')
+      correcto.volume = 0.3
+      correcto.play()
       const newCasas = [...casas]
       newCasas[posCasa] = primeraCarta
       setCasas(newCasas)
@@ -48,6 +52,7 @@ export default function Grupo2() {
 
   return (
     <div className="grupo2">
+      <audio id="correcto" src={correcto}></audio>
       {casas.map((carta, index) => (
         <div
           key={index}
