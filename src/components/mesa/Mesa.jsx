@@ -4,6 +4,7 @@ import Grupo2 from '../Grupo2/Grupo2'
 import Grupo3 from '../Grupo3/Grupo3'
 import { useBaraja } from '../../hooks/useBaraja'
 import ConfettiComponent from '../ConfettiComponent'
+import win from '../../assets/win.mp3'
 
 export const GameContext = createContext()
 
@@ -12,7 +13,11 @@ function todasColumnasVacias(matriz) {
     if (matriz[i].length > 0) {
       return false // Si al menos una columna no está vacía, retornar falso.
     }
+    const win = document.querySelector('#win')
+    win.volume = 0.5
+    win.play()
   }
+
   return true // Si todas las columnas están vacías, retornar verdadero.
 }
 
@@ -46,6 +51,7 @@ export default function Mesa() {
   console.log('las columnasÇ: ', columnas)
   return (
     <div className="mesa">
+      <audio id="win" src={win}></audio>
       <button
         onClick={() => {
           setIsplay(false)

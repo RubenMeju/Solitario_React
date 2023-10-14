@@ -14,7 +14,7 @@ export default function Grupo1() {
 
   const volterCarta = (carta) => {
     const music = document.querySelector('#music')
-    music.volume = 0.2
+    music.volume = 0.1
     music.play()
     // añado la carta cliqueada a cartas volteadas
     setCartasVolteadas((prevCartasVolteadas) => [...prevCartasVolteadas, carta])
