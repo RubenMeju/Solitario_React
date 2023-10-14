@@ -5,6 +5,8 @@ import { voltearUltimaCartaDeColumna } from '../../utils'
 
 export default function Grupo2() {
   const {
+    casas,
+    setCasas,
     cartasVolteadas,
     setCartasVolteadas,
     columnas,
@@ -12,7 +14,6 @@ export default function Grupo2() {
     allowDrop,
     dragLeave
   } = useContext(GameContext)
-  const [casas, setCasas] = useState([{}, {}, {}, {}])
 
   const drop = (e, ultimaCarta, posCasa) => {
     e.preventDefault()

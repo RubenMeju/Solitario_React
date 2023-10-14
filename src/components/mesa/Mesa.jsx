@@ -1,16 +1,23 @@
-import { useState, createContext, useEffect } from 'react'
+import { useState, createContext } from 'react'
 import Grupo1 from '../Grupo1/Grupo1'
 import Grupo2 from '../Grupo2/Grupo2'
 import Grupo3 from '../Grupo3/Grupo3'
-import { barajarCartas, crearBaraja, darCartas } from '../../utils'
+import { useBaraja } from '../../hooks/useBaraja'
 
 export const GameContext = createContext()
 
 export default function Mesa() {
-  const [isPlay, setIsPlay] = useState(false)
-  const [barajado, setBarajado] = useState([])
-  const [columnas, setColumnas] = useState([])
+  const {
+    barajado,
+    setBarajado,
+    columnas,
+    setColumnas,
+    crearBarajaYDarCartas
+  } = useBaraja()
+  console.log(barajado)
+  console.log(columnas)
   const [cartasVolteadas, setCartasVolteadas] = useState([])
+  const [casas, setCasas] = useState([{}, {}, {}, {}])
 
   // funciones para agregar hover
   const allowDrop = (e) => {
@@ -22,24 +29,16 @@ export default function Mesa() {
     ev.target.classList.remove('hover')
   }
 
-  useEffect(() => {
-    if (isPlay) {
-      crearBaraja()
-      barajarCartas()
-      const { barajado, columnas } = darCartas()
-      setBarajado(barajado)
-      setColumnas(columnas)
-    }
-  }, [isPlay])
-
   return (
     <div className="mesa">
       <button
         onClick={() => {
-          setIsPlay(true)
+          setCasas([{}, {}, {}, {}])
+          setCartasVolteadas([])
+          crearBarajaYDarCartas()
         }}
       >
-        Empezar
+        Nuevo juego
       </button>
       <GameContext.Provider
         value={{
@@ -49,6 +48,8 @@ export default function Mesa() {
           setColumnas,
           cartasVolteadas,
           setCartasVolteadas,
+          casas,
+          setCasas,
           allowDrop,
           dragLeave
         }}
