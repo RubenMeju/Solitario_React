@@ -4,11 +4,11 @@
 
 Bienvenido al juego de Solitario desarrollado en React con la emocionante característica de arrastrar y soltar. Este proyecto ofrece una experiencia clásica de solitario directamente en tu navegador.
 
-![Solitario en React con Arrastrar y Soltar](enlace_a_imagen_del_juego)
+![Solitario en React con Arrastrar y Soltar](solitario.png)
 
 ## Demo
 
-Puedes probar el juego en vivo [aquí](enlace_a_la_demo_del_juego).
+Puedes probar el juego en vivo [aquí](https://solitario-react.vercel.app/).
 
 ## Características
 
